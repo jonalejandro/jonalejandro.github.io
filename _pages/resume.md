@@ -1,7 +1,8 @@
 ---
-permalink: /resume/
-title: "Resume"
 layout: single
+title: "Resume"
+permalink: /resume/
+author_profile: true
 ---
 
 My resume is available upon request.
