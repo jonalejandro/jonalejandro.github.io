@@ -17,3 +17,17 @@ header_pages:
   - _pages/thinking.md
   - _pages/resume.md
   - _pages/contact.md
+
+
+author:
+  name: "Jon Alejandro"
+  avatar: "https://avatars.githubusercontent.com/u/your-id?v=4"
+  bio: "Product Line Manager in power management ICs and semiconductor strategy."
+  location: "Dallas, TX"
+  links:
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/jonalejandro"
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/jonalejandro"
