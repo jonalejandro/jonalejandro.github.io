@@ -1,5 +1,5 @@
 ---
-title: "How to Win a Reference Design"
+title: "Winning a Reference Design: Aligning SoC, OEM, and ODM"
 date: 2026-03-18
 tags: [semiconductors, systems, business, reference-design, servers, storage]
 permalink: /notes/winning-a-reference-design/
