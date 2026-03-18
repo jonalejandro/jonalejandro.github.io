@@ -9,7 +9,7 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name: ""
+  name: "Jon Alejandro"
   avatar: "https://avatars.githubusercontent.com/u/9439183?v=4"
   bio: "Product Line Manager in power management ICs and semiconductor strategy."
   location: "Dallas, TX"
@@ -32,12 +32,13 @@ defaults:
 include:
   - _pages
 
+
+minimal_mistakes_skin: "default"
+
+# Proper way to include custom CSS
 sass:
   style: compressed
 
-# Add this line
-minimal_mistakes_skin: "default"
-
-# include custom css
-head_scripts:
+# ADD THIS
+stylesheets:
   - /assets/css/custom.css
