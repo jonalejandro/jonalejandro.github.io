@@ -31,3 +31,13 @@ defaults:
 
 include:
   - _pages
+
+sass:
+  style: compressed
+
+# Add this line
+minimal_mistakes_skin: "default"
+
+# include custom css
+head_scripts:
+  - /assets/css/custom.css
