@@ -26,3 +26,12 @@ header_pages:
   - _pages/notes.md
   - _pages/resume.md
   - _pages/contact.md
+
+
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
