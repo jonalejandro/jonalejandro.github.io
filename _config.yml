@@ -36,3 +36,6 @@ sass:
   style: compressed
 
 minimal_mistakes_skin: "default"
+
+# THIS LINE IS KEY
+stylesheet: /assets/css/main.css
