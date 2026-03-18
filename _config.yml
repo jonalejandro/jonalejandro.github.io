@@ -20,6 +20,9 @@ author:
     - label: "GitHub"
       icon: "fab fa-github"
       url: "https://github.com/jonalejandro"
+    - label: "Strava"
+      icon: "fab fa-strava"
+      url: "https://strava.app.link/cTzsQ6dYB1b"
 
 defaults:
   - scope:
