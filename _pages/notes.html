@@ -6,15 +6,18 @@ author_profile: true
 ---
 
 Notes on semiconductor strategy, power architecture, and systems thinking.
-<br>
+
 
 {% for post in site.posts %}
-  <div style="margin-bottom: 1.5em;">
-    <a href="{{ post.url }}" style="font-size: 1.2em; font-weight: 500;">
-      {{ post.title }}
-    </a>
-    <div style="color: #777; font-size: 0.9em;">
+  <div style="margin-bottom: 2em;">
+
+    <div style="font-size: 0.8em; color:#999;">
       {{ post.date | date: "%b %d, %Y" }}
     </div>
+
+    <div style="font-size: 1.3em; font-weight: 500; margin: 0.2em 0;">
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </div>
+
   </div>
 {% endfor %}
