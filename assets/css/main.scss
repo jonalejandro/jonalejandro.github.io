@@ -3,17 +3,19 @@
 
 @import "minimal-mistakes";
 
-/* Your custom styles below */
-
-.page__content {
-  max-width: 700px;
+/* FORCE readable width */
+.page__inner-wrap {
+  max-width: 720px !important;
+  margin: 0 auto !important;
 }
 
-.page {
-  max-width: 900px;
-}
-
+/* tighten paragraphs */
 .page__content p {
-  line-height: 1.7;
-  margin-bottom: 1.2em;
+  line-height: 1.75;
+  margin-bottom: 1.3em;
+}
+
+/* optional: slightly bigger text */
+.page__content {
+  font-size: 1.05em;
 }
