@@ -5,17 +5,16 @@ title: "Jon Alejandro"
 
 ## Jon Alejandro
 
-Product Line Manager – Power Management ICs  
+**Product Line Manager – Power Management ICs**  
 Semiconductor Strategy | System Power Architecture  
-
-Dallas, Texas
+Dallas, Texas  
 
 ---
 
-### Welcome
+I work at the intersection of semiconductor product strategy, analog power design, and system-level architecture.
 
-This site is a collection of my work, notes, and projects focused on:
+This site is a collection of my thinking, projects, and notes on:
 
-- power delivery architecture
-- semiconductor systems
-- quantitative experiments
+- power delivery systems  
+- semiconductor architecture  
+- quantitative experiments  
