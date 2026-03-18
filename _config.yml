@@ -1,27 +1,16 @@
 title: "Jon Alejandro"
 name: "Jon Alejandro"
 description: "Power Management ICs | Semiconductor Strategy | System Power Architecture"
-url: "https://jonalejandro.github.io"
+url: "https://jonalejandro.com"
 
 remote_theme: "mmistakes/minimal-mistakes"
+
 plugins:
   - jekyll-include-cache
 
 author:
   name: "Jon Alejandro"
-  bio: "Product Line Manager in power management ICs and semiconductor strategy."
-  location: "Dallas, TX"
-
-header_pages:
-  - _pages/about.md
-  - _pages/notes.md
-  - _pages/resume.md
-  - _pages/contact.md
-
-
-author:
-  name: "Jon Alejandro"
-  avatar: "https://avatars.githubusercontent.com/u/your-id?v=4"
+  avatar: "https://avatars.githubusercontent.com/u/YOUR-GITHUB-ID?v=4"
   bio: "Product Line Manager in power management ICs and semiconductor strategy."
   location: "Dallas, TX"
   links:
@@ -31,3 +20,9 @@ author:
     - label: "GitHub"
       icon: "fab fa-github"
       url: "https://github.com/jonalejandro"
+
+header_pages:
+  - _pages/about.md
+  - _pages/notes.md
+  - _pages/resume.md
+  - _pages/contact.md
