@@ -3,11 +3,10 @@
 
 @import "minimal-mistakes";
 
-/* FORCE CENTER CONTENT */
+/* FIX WIDTH */
 .page__inner-wrap {
-  max-width: 700px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 /* Improve readability */
