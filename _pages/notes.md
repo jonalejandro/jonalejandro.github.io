@@ -9,8 +9,12 @@ Notes on semiconductor strategy, power architecture, and systems thinking.
 
 
 {% raw %}
+<ul>
 {% for post in site.posts %}
-  <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-  <p>{{ post.excerpt }}</p>
+  <li>
+    <a href="{{ post.url }}">{{ post.title }}</a>
+    <small> — {{ post.date | date: "%b %d, %Y" }}</small>
+  </li>
 {% endfor %}
+</ul>
 {% endraw %}
