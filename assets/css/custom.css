@@ -5,3 +5,9 @@
 .page {
   max-width: 900px;
 }
+
+
+.page__content p {
+  line-height: 1.7;
+  margin-bottom: 1.2em;
+}
