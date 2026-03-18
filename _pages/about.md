@@ -1,7 +1,8 @@
 ---
-permalink: /about/
-title: "About"
 layout: single
+title: "About"
+permalink: /about/
+author_profile: true
 ---
 
 I’m Jon Alejandro, a Product Line Manager focused on power management ICs, DC-DC converters, and system-level power architecture.
