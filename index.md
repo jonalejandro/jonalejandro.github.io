@@ -1,9 +1,10 @@
 ---
-layout: home
+layout: single
 title: "Jon Alejandro"
+author_profile: true
 ---
 
-## Jon Alejandro
+# Jon Alejandro
 
 **Product Line Manager – Power Management ICs**  
 Semiconductor Strategy | System Power Architecture  
