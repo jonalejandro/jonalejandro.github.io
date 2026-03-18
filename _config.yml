@@ -10,7 +10,7 @@ plugins:
 
 author:
   name: "Jon Alejandro"
-  avatar: "https://avatars.githubusercontent.com/u/9439183?v=4"
+  avatar: "/assets/images/profile.jpg"
   bio: "Product Line Manager - PMICs, DC-DC, RF Biasing & semiconductor strategy."
   location: "Dallas, TX"
   links:
