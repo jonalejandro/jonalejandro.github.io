@@ -21,13 +21,6 @@ author:
       icon: "fab fa-github"
       url: "https://github.com/jonalejandro"
 
-header_pages:
-  - _pages/about.md
-  - _pages/notes.md
-  - _pages/resume.md
-  - _pages/contact.md
-
-
 defaults:
   - scope:
       path: ""
@@ -35,3 +28,6 @@ defaults:
     values:
       layout: single
       author_profile: true
+
+include:
+  - _pages
