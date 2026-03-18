@@ -10,7 +10,9 @@ Dallas, Texas
 
 ---
 
-I work at the intersection of semiconductor product strategy, analog power design, and system-level architecture.
+I define and scale power architectures for high-performance systems, translating silicon capabilities into product strategy and revenue.
+
+My work focuses on power delivery, system constraints, and cross-domain integration (PMIC, RF, and compute).
 
 This site is a collection of my thinking, projects, and notes on:
 
