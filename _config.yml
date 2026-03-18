@@ -32,13 +32,7 @@ defaults:
 include:
   - _pages
 
-
-minimal_mistakes_skin: "default"
-
-# Proper way to include custom CSS
 sass:
   style: compressed
 
-# ADD THIS
-stylesheets:
-  - /assets/css/custom.css
+minimal_mistakes_skin: "default"
