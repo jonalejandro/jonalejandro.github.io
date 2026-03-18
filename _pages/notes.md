@@ -1,6 +1,6 @@
 ---
-permalink: /thinking/
-title: "Thinking"
+permalink: /notes/
+title: "Notes"
 layout: single
 ---
 
