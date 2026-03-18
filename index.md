@@ -1,7 +1,12 @@
 ---
 layout: single
-title: ""
+title: "Jon Alejandro"
 author_profile: true
+classes: wide
+header:
+  overlay_color: "#000"
+  overlay_filter: "0"
+  overlay_image: ""
 ---
 
 **Product Line Manager – Power Management ICs**  
