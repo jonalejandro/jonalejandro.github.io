@@ -4,8 +4,6 @@ title: "Jon Alejandro"
 author_profile: true
 ---
 
-# Jon Alejandro
-
 **Product Line Manager – Power Management ICs**  
 Semiconductor Strategy | System Power Architecture  
 Dallas, Texas  
