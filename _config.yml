@@ -1,0 +1,19 @@
+title: "Jon Alejandro"
+name: "Jon Alejandro"
+description: "Power Management ICs | Semiconductor Strategy | System Power Architecture"
+url: "https://jonalejandro.github.io"
+
+remote_theme: "mmistakes/minimal-mistakes"
+plugins:
+  - jekyll-include-cache
+
+author:
+  name: "Jon Alejandro"
+  bio: "Product Line Manager in power management ICs and semiconductor strategy."
+  location: "Dallas, TX"
+
+header_pages:
+  - _pages/about.md
+  - _pages/thinking.md
+  - _pages/resume.md
+  - _pages/contact.md
