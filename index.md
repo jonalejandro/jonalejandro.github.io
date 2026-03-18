@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Jon Alejandro"
+title: ""
 author_profile: true
 ---
 
