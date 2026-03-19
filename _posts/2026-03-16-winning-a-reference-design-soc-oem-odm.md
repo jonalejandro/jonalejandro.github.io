@@ -4,7 +4,6 @@ date: 2026-03-16
 tags: [semiconductors, systems, business, reference-design, servers, storage]
 permalink: /notes/winning-a-reference-design/
 ---
-# Winning a Reference Design: Aligning SoC, OEM, and ODM
 
 If you’ve ever chased a “reference design win,” you already know it’s not really about having the best part on paper. Plenty of great components never make it into production systems. What actually matters is how well you navigate the three groups that control the outcome: the SoC vendor, the OEM, and the ODM.
 
