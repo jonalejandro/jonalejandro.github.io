@@ -1,27 +1,24 @@
 <style>
-/* FORCE readable width */
+/* Fix centering issue (THIS is the main bug) */
 .page__inner-wrap {
-  max-width: 720px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  float: none !important;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Improve readability */
-.page__content {
-  font-size: 1.05em;
+/* Control total page width */
+#main {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.page__content p {
-  line-height: 1.75;
-  margin-bottom: 1.3em;
-}
-
-/* Clean link style */
-.page__content a {
-  text-decoration: none;
-}
-
-.page__content a:hover {
-  text-decoration: underline;
+/* Add breathing room on mobile */
+@media (max-width: 768px) {
+  #main {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
 }
 </style>
