@@ -31,6 +31,13 @@ defaults:
     values:
       layout: single
       author_profile: true
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      classes: wide
 
 include:
   - _pages
