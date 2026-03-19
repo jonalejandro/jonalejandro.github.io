@@ -5,7 +5,6 @@ categories: [Power Management, System Design]
 tags: [PMIC, Power Architecture, Analog, Semiconductors]
 ---
 
-## PMIC Integration is Overrated
 
 There’s a narrative in power management right now that feels almost unquestioned:
 
