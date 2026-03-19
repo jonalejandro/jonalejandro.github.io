@@ -10,8 +10,6 @@ tags:
   - Embedded Systems
 ---
 
-# SSD Power Loss Protection: Understanding Behavior During Sudden Power Failure
-
 Power interruption in solid-state drives is often treated as a simple event: power is removed, and the system stops. In practice, the behavior is more nuanced. The internal architecture of an SSD introduces timing windows where both user data and critical metadata may be in transient states, making uncontrolled power loss a non-trivial reliability concern.
 
 This article examines what occurs inside an SSD during power failure and how power loss protection (PLP) mechanisms are designed to maintain data integrity.
