@@ -1,10 +1,8 @@
 -----
----
 title: “What Semiconductor Mergers Actually Do to Product Roadmaps”
 date: 2026-03-19
 categories: [Semiconductor Strategy]
 tags: [Mergers, Product Management, Roadmap, Qorv, Power Management]
-
 -----
 
 I started at Qorvo in August 2015. Technically, I started at a company that didn’t exist yet.
