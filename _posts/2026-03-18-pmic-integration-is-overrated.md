@@ -1,6 +1,6 @@
 ---
 title: "PMIC Integration is Overrated"
-date: 2026-03-18
+date: 2026-03-17
 categories: [Power Management, System Design]
 tags: [PMIC, Power Architecture, Analog, Semiconductors]
 ---
