@@ -1,24 +1,21 @@
 <style>
-/* Fix centering issue (THIS is the main bug) */
-.page__inner-wrap {
+/* ONLY apply to blog posts */
+.layout--single .page__inner-wrap {
+
+  /* Fix the root issue */
   float: none !important;
+
+  /* Narrow readable width */
   max-width: 720px;
+
+  /* Center it */
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Control total page width */
-#main {
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Add breathing room on mobile */
-@media (max-width: 768px) {
-  #main {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-  }
+/* Optional: improve readability */
+.layout--single .page__content {
+  font-size: 18px;
+  line-height: 1.7;
 }
 </style>
