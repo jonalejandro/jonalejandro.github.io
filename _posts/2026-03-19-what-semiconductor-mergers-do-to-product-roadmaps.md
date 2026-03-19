@@ -1,5 +1,5 @@
 ---
-title: “What Semiconductor Mergers Actually Do to Product Roadmaps”
+title: What Semiconductor Mergers Actually Do to Product Roadmaps
 date: 2026-03-19
 categories: [Semiconductor Strategy]
 tags: [Mergers, Product Management, Roadmap, Qorvo, Power Management]
