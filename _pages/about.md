@@ -2,7 +2,7 @@
 layout: single
 title: "About"
 permalink: /about/
-author_profile: true
+author_profile: false
 ---
 
 I work at the intersection of power management, system architecture, and product strategy. My background is in defining power solutions that move from device capability to system value, balancing efficiency, performance, reliability, and cost across real product constraints.
