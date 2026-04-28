@@ -1,0 +1,299 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jon Alejandro — Product Line Manager, PMICs & Semiconductor Strategy</title>
+  <meta name="description" content="Product Line Manager for PMICs and DC-DC converters. Writing about power systems, semiconductor strategy, and product roadmaps.">
+  <link rel="canonical" href="https://jonalejandro.com/">
+  <link rel="alternate" type="application/rss+xml" title="Jon Alejandro" href="/feed.xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink:         #0f0f0f;
+      --paper:       #f5f2ed;
+      --white:       #ffffff;
+      --accent:      #1a5c7a;
+      --accent-warm: #c0623a;
+      --muted:       #6b6560;
+      --rule:        #d4cfc8;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --mono:  'DM Mono', 'Courier New', monospace;
+      --sans:  'DM Sans', system-ui, sans-serif;
+      --nav-h: 64px;
+      --max-w: 1100px;
+      --pad-x: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 300; line-height: 1.7; min-height: 100vh; }
+    img  { display: block; max-width: 100%; }
+    a    { color: inherit; }
+
+    /* NAV */
+    .site-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--pad-x);
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 2.25rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none; color: var(--muted);
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .hero {
+      padding-top: calc(var(--nav-h) + 4rem); padding-bottom: 4rem;
+      padding-left: var(--pad-x); padding-right: var(--pad-x);
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 300px;
+      gap: 4rem; align-items: end;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 1.75rem; height: 1px; background: var(--accent); flex-shrink: 0;
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.6rem, 4.5vw, 4rem);
+      line-height: 1.1; letter-spacing: -0.01em;
+      color: var(--ink); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-bio { font-size: 1rem; color: var(--muted); max-width: 54ch; line-height: 1.8; margin-bottom: 2rem; }
+    .hero-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .hero-links a {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.07em;
+      text-transform: uppercase; text-decoration: none; color: var(--muted);
+      padding-bottom: 2px; border-bottom: 1px solid var(--rule);
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .hero-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* Profile card */
+    .profile-card { border: 1px solid var(--rule); background: var(--white); padding: 1.75rem; }
+    .profile-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; margin-bottom: 1.25rem; filter: grayscale(15%); }
+    .profile-name { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .profile-title { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); line-height: 1.65; }
+
+    /* Section rule */
+    .section-rule { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad-x); border-top: 1px solid var(--rule); }
+
+    /* Writing section */
+    .section { max-width: var(--max-w); margin: 0 auto; padding: 3.5rem var(--pad-x); }
+    .section-label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2rem; }
+
+    /* Featured post */
+    .featured-post {
+      display: block; background: var(--ink); color: var(--paper);
+      padding: 2.75rem; text-decoration: none; transition: background 0.18s;
+    }
+    .featured-post:hover { background: #1c1c1c; }
+    .featured-eyebrow { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .featured-title { font-family: var(--serif); font-size: clamp(1.35rem, 2.5vw, 1.9rem); line-height: 1.2; color: var(--paper); margin-bottom: 0.75rem; }
+    .featured-excerpt { font-size: 0.875rem; color: #a09890; line-height: 1.75; max-width: 62ch; margin-bottom: 1.5rem; }
+    .featured-cta { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+    .featured-cta::after { content: ' →'; }
+
+    /* Post list */
+    .post-item {
+      display: grid; grid-template-columns: 64px 1fr auto;
+      gap: 1.75rem; align-items: baseline;
+      padding: 1.4rem 0; border-bottom: 1px solid var(--rule);
+      text-decoration: none; color: inherit;
+    }
+    .post-item:first-child { border-top: 1px solid var(--rule); }
+    .post-item:hover .post-title { color: var(--accent); }
+    .post-num { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.04em; }
+    .post-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-warm); margin-bottom: 0.3rem; }
+    .post-title { font-family: var(--serif); font-size: 1.15rem; line-height: 1.25; color: var(--ink); transition: color 0.18s; margin-bottom: 0.35rem; }
+    .post-excerpt { font-size: 0.85rem; color: var(--muted); line-height: 1.65; max-width: 58ch; }
+    .post-meta { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.04em; white-space: nowrap; text-align: right; line-height: 1.6; }
+
+    /* About strip */
+    .about-strip { background: var(--white); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .about-inner { max-width: var(--max-w); margin: 0 auto; padding: 3.5rem var(--pad-x); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .about-label { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+    .about-text { font-size: 0.92rem; color: var(--muted); line-height: 1.85; }
+    .about-text + .about-text { margin-top: 1rem; }
+    .career-list { list-style: none; }
+    .career-item { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: baseline; padding: 0.8rem 0; border-bottom: 1px solid var(--rule); }
+    .career-item:last-child { border-bottom: none; }
+    .career-role { font-size: 0.875rem; color: var(--ink); }
+    .career-co { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.04em; margin-top: 0.15rem; }
+    .career-year { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.04em; text-align: right; white-space: nowrap; }
+
+    /* Footer */
+    .site-footer { max-width: var(--max-w); margin: 0 auto; padding: 2.25rem var(--pad-x); display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--rule); }
+    .footer-copy { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.04em; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+    .footer-links a:hover { color: var(--ink); }
+
+    /* Animations */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-eyebrow { animation: fadeUp 0.45s ease both; }
+    .hero h1      { animation: fadeUp 0.45s 0.08s ease both; }
+    .hero-bio     { animation: fadeUp 0.45s 0.16s ease both; }
+    .hero-links   { animation: fadeUp 0.45s 0.22s ease both; }
+    .hero-right   { animation: fadeUp 0.45s 0.1s  ease both; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-right { order: -1; max-width: 220px; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .post-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .post-num { display: none; }
+      .post-meta { text-align: left; }
+    }
+    @media (max-width: 520px) {
+      .nav-links { gap: 1.25rem; }
+      .site-footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .featured-post { padding: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-nav">
+  <a class="nav-logo" href="/">Jon Alejandro</a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="/notes/">Writing</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="https://www.linkedin.com/in/jonalejandro" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Product Line Manager · Dallas, TX</div>
+    <h1>Power management,<br><em>system strategy,</em><br>semiconductor markets.</h1>
+    <p class="hero-bio">
+      I define product roadmaps for PMICs and DC-DC converters at the intersection of silicon capability, customer constraint, and market timing. Previously at Texas Instruments. Writing about power systems, product strategy, and what mergers actually do to roadmaps.
+    </p>
+    <div class="hero-links">
+      <a href="https://www.linkedin.com/in/jonalejandro" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/jonalejandro" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://strava.app.link/cTzsQ6dYB1b" target="_blank" rel="noopener">Strava</a>
+      <a href="/feed.xml">RSS</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="profile-card">
+      <img class="profile-img" src="/assets/images/profile.jpg" alt="Jon Alejandro" width="300" height="300">
+      <div class="profile-name">Jon Alejandro</div>
+      <div class="profile-title">PLM – PMICs, DC-DC, RF Biasing<br>Qorvo, Inc. · Dallas, TX</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-rule"></div>
+
+<section class="section">
+  <span class="section-label">Writing</span>
+
+  <a class="featured-post" href="/semiconductor%20strategy/2026/03/19/what-semiconductor-mergers-do-to-product-roadmaps.html">
+    <div class="featured-eyebrow">Semiconductor Strategy · Mar 19, 2026</div>
+    <div class="featured-title">What Semiconductor Mergers Actually Do to Product Roadmaps</div>
+    <p class="featured-excerpt">Two mergers, ten years, five roles. The press release version and the operational reality are very different things — and the gap between them is where careers and product lines get decided.</p>
+    <div class="featured-cta">Read</div>
+  </a>
+
+  <div class="post-list">
+    <a class="post-item" href="/power%20management/system%20design/2026/03/17/pmic-integration-is-overrated.html">
+      <div class="post-num">02</div>
+      <div class="post-body">
+        <div class="post-tag">Power Management</div>
+        <div class="post-title">PMIC Integration Is Overrated</div>
+        <p class="post-excerpt">Integration is treated as the default. It shouldn't be — and the tradeoffs most teams don't talk about are the ones that matter most.</p>
+      </div>
+      <div class="post-meta">Mar 17, 2026<br>7 min</div>
+    </a>
+
+    <a class="post-item" href="/notes/winning-a-reference-design/">
+      <div class="post-num">03</div>
+      <div class="post-body">
+        <div class="post-tag">Product Strategy</div>
+        <div class="post-title">Winning a Reference Design: Aligning SoC, OEM, and ODM</div>
+        <p class="post-excerpt">Control of a design win shifts between three parties. The teams that lose don't lose on specs — they lose by not adjusting as the handoff moves.</p>
+      </div>
+      <div class="post-meta">Mar 16, 2026<br>8 min</div>
+    </a>
+  </div>
+</section>
+
+<div class="about-strip">
+  <div class="about-inner">
+    <div>
+      <div class="about-label">Background</div>
+      <p class="about-text">A decade in semiconductor product management — from technical project management and customer accounts to product marketing and product line ownership.</p>
+      <p class="about-text">My focus has shifted toward where power, RF, and compute intersect: AI infrastructure, defense, and next-generation data center architectures. M.S. and B.S. in Electrical Engineering from UT Dallas.</p>
+    </div>
+    <div>
+      <div class="about-label">Career</div>
+      <ul class="career-list">
+        <li class="career-item">
+          <div><div class="career-role">Product Line Manager</div><div class="career-co">Qorvo, Inc.</div></div>
+          <div class="career-year">2025 – Present</div>
+        </li>
+        <li class="career-item">
+          <div><div class="career-role">Product Marketing Manager</div><div class="career-co">Qorvo, Inc.</div></div>
+          <div class="career-year">2023 – 2025</div>
+        </li>
+        <li class="career-item">
+          <div><div class="career-role">Product Marketing Engineer</div><div class="career-co">Texas Instruments</div></div>
+          <div class="career-year">2020 – 2023</div>
+        </li>
+        <li class="career-item">
+          <div><div class="career-role">Customer Account Manager</div><div class="career-co">Qorvo, Inc.</div></div>
+          <div class="career-year">2018 – 2020</div>
+        </li>
+        <li class="career-item">
+          <div><div class="career-role">Technical Project Manager</div><div class="career-co">Qorvo, Inc.</div></div>
+          <div class="career-year">2015 – 2018</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-copy">© 2026 Jon Alejandro</div>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/jonalejandro" target="_blank" rel="noopener">LinkedIn</a></li>
+    <li><a href="https://github.com/jonalejandro" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="/feed.xml">RSS</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>
