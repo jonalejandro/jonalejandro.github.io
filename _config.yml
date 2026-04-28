@@ -35,9 +35,8 @@ defaults:
       path: ""
       type: posts
     values:
-      layout: single
-      author_profile: true
-      classes: wide
+      layout: themed_post
+      author_profile: false
 
 include:
   - _pages
