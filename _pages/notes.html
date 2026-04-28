@@ -1,22 +1,80 @@
 ---
-layout: themed
-title: Notes & Writing
-eyebrow: Notes & Writing
-subtitle: Essays on power systems, product strategy, and semiconductor roadmaps.
+layout: none
+title: "Writing"
 permalink: /notes/
 ---
-<div class="post-list">
-  {% for post in site.posts %}
-    <a class="post-item" href="{{ post.url | relative_url }}">
-      <div class="post-num">{{ forloop.index0 | plus: 1 | prepend: '0' }}</div>
-      <div>
-        <div class="post-tag">Article</div>
-        <div class="post-title">{{ post.title }}</div>
-        {% if post.excerpt %}
-          <div class="post-excerpt">{{ post.excerpt | strip_html | truncate: 170 }}</div>
-        {% endif %}
-      </div>
-      <div class="post-meta">{{ post.date | date: "%b %d, %Y" }}</div>
-    </a>
-  {% endfor %}
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing — Jon Alejandro</title>
+  <link rel="canonical" href="https://jonalejandro.com/notes/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#0f0f0f; --paper:#f5f2ed; --accent:#1a5c7a; --accent-warm:#c0623a; --muted:#6b6560; --rule:#d4cfc8; --serif:'DM Serif Display',Georgia,serif; --mono:'DM Mono','Courier New',monospace; --sans:'DM Sans',system-ui,sans-serif; --nav-h:64px; --max-w:960px; --pad-x:clamp(1.5rem,4vw,3rem);}    
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.7}
+    a{color:inherit}
+    .site-nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--pad-x);background:var(--paper);border-bottom:1px solid var(--rule)}
+    .nav-logo{font-family:var(--mono);font-size:.78rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--ink)}
+    .nav-links{display:flex;gap:2.25rem;list-style:none}
+    .nav-links a{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--muted)}
+    .nav-links a:hover{color:var(--ink)}
+    .page{max-width:var(--max-w);margin:0 auto;padding:calc(var(--nav-h) + 4rem) var(--pad-x) 3rem}
+    .eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+    h1{font-family:var(--serif);font-size:clamp(2.2rem,4.8vw,3.7rem);line-height:1.1;margin-bottom:1rem}
+    .subtitle{color:var(--muted);max-width:64ch;margin-bottom:2rem}
+    .post-item{display:grid;grid-template-columns:64px 1fr auto;gap:1.5rem;align-items:baseline;padding:1.2rem 0;border-bottom:1px solid var(--rule);text-decoration:none}
+    .post-item:first-of-type{border-top:1px solid var(--rule)}
+    .post-num{font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+    .post-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-warm);margin-bottom:.2rem}
+    .post-title{font-family:var(--serif);font-size:1.2rem;line-height:1.25;transition:color .18s}
+    .post-excerpt{font-size:.85rem;color:var(--muted);margin-top:.3rem;max-width:58ch}
+    .post-meta{font-family:var(--mono);font-size:.62rem;color:var(--muted);letter-spacing:.04em;white-space:nowrap;text-align:right}
+    .post-item:hover .post-title{color:var(--accent)}
+    .footer{max-width:var(--max-w);margin:0 auto;padding:2rem var(--pad-x);border-top:1px solid var(--rule);font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--muted);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .footer a{text-decoration:none;color:inherit}
+    @media (max-width:800px){.post-item{grid-template-columns:1fr;gap:.5rem}.post-num{display:none}.post-meta{text-align:left}.nav-links{gap:1.25rem}}
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <a class="nav-logo" href="/">Jon Alejandro</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/notes/">Writing</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="https://www.linkedin.com/in/jonalejandro" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
+    <div class="eyebrow">Notes & Writing</div>
+    <h1>Essays on power systems, product strategy, and semiconductor roadmaps.</h1>
+    <p class="subtitle">Recent writing on PMIC integration decisions, reference designs, and how market structure changes technical roadmaps.</p>
+
+    {% for post in site.posts %}
+      <a class="post-item" href="{{ post.url }}">
+        <div class="post-num">{{ forloop.index0 | plus: 1 | prepend: '0' }}</div>
+        <div>
+          <div class="post-tag">Article</div>
+          <div class="post-title">{{ post.title }}</div>
+          {% if post.excerpt %}
+            <div class="post-excerpt">{{ post.excerpt | strip_html | truncate: 170 }}</div>
+          {% endif %}
+        </div>
+        <div class="post-meta">{{ post.date | date: "%b %d, %Y" }}</div>
+      </a>
+    {% endfor %}
+  </main>
+
+  <footer class="footer">
+    <span>© {{ site.time | date: '%Y' }} Jon Alejandro</span>
+    <span><a href="/about/">About</a> · <a href="/feed.xml">RSS</a></span>
+  </footer>
+</body>
+</html>
