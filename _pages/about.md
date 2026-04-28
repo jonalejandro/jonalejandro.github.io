@@ -1,9 +1,7 @@
 ---
-layout: single
 layout: none
 title: "About"
 permalink: /about/
-author_profile: true
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -58,14 +56,12 @@ author_profile: true
     </nav>
   </header>
 
-I work at the intersection of power management, system architecture, and product strategy. My background is in defining power solutions that move from device capability to system value, balancing efficiency, performance, reliability, and cost across real product constraints.
   <main class="page">
     <div class="eyebrow">About</div>
     <h1>Building product strategy from
       <em style="font-style:italic;color:var(--accent)">power system constraints</em>.</h1>
     <p class="intro">I work at the intersection of power management, system architecture, and product strategy. My focus is translating circuit-level tradeoffs into product decisions that matter at platform scale.</p>
 
-Over time, my work has increasingly focused on cross-domain problems where power is not an isolated function, but part of a larger platform challenge involving silicon, firmware, thermal behavior, RF subsystems, and customer requirements.
     <div class="grid">
       <section class="block">
         <h2>How I work</h2>
@@ -75,7 +71,6 @@ Over time, my work has increasingly focused on cross-domain problems where power
         <p>This site is where I write about power systems, reliability, and engineering tradeoffs that influence product outcomes.</p>
       </section>
 
-I am especially interested in how technical tradeoffs become product decisions: which constraints matter most, where integration creates leverage, and how system-level thinking can shape roadmap direction.
       <aside class="block">
         <div class="label" style="margin-bottom:1rem">Current focus</div>
         <ul class="list">
@@ -88,7 +83,6 @@ I am especially interested in how technical tradeoffs become product decisions: 
     </div>
   </main>
 
-This site is where I write about power systems, reliability, and engineering tradeoffs that influence product outcomes.
   <footer class="footer">
     <span>© {{ site.time | date: '%Y' }} Jon Alejandro</span>
     <span><a href="/notes/">Writing</a> · <a href="/feed.xml">RSS</a></span>
