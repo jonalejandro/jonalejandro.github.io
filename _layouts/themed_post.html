@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} — {{ site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/theme.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-nav">
+    <a class="nav-logo" href="{{ '/' | relative_url }}">Jon Alejandro</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="{{ '/notes/' | relative_url }}" class="is-active">Writing</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+        <li><a href="https://www.linkedin.com/in/jonalejandro" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <article class="page">
+    <div class="eyebrow">Notes & Writing</div>
+    <h1 class="page-title">{{ page.title }}</h1>
+    <p class="subtitle">{{ page.date | date: "%B %d, %Y" }}</p>
+    <div class="rich">
+      {{ content }}
+    </div>
+  </article>
+
+  <footer class="footer">
+    <span>© {{ site.time | date: '%Y' }} Jon Alejandro</span>
+    <span><a href="{{ '/notes/' | relative_url }}">Writing</a> · <a href="{{ '/feed.xml' | relative_url }}">RSS</a></span>
+  </footer>
+</body>
+</html>
