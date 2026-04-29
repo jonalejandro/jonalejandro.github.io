@@ -74,7 +74,7 @@ permalink: /about/
       <aside class="block">
         <div class="label" style="margin-bottom:1rem">Current focus</div>
         <ul class="list">
-          <li>PMIC and DC-DC product roadmap strategy</li>
+          <li>RF Biasing, PMIC and DC-DC product roadmap strategy</li>
           <li>Power architecture tradeoff analysis</li>
           <li>System-level reliability and integration</li>
           <li>Semiconductor market and portfolio positioning</li>
