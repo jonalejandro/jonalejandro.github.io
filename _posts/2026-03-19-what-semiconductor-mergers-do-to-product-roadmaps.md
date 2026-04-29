@@ -4,7 +4,7 @@ date: 2026-03-19
 categories: [Semiconductor Strategy]
 tags: [Mergers, Product Management, Roadmap, Qorvo, Power Management]
 ---
-I started at Qorvo in August 2015.
+I started at Qorvo in February 2015.
 
 RFMD and TriQuint had just completed their merger to form Qorvo a few months earlier. The ink was barely dry. Two legacy RF semiconductor companies—each with decades of history, their own cultures, their own product philosophies—had been combined into a single entity and handed a new name. I joined into that.
 
