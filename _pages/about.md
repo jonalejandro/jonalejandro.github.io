@@ -60,7 +60,7 @@ permalink: /about/
     <div class="eyebrow">About</div>
     <h1>Building product strategy from
       <em style="font-style:italic;color:var(--accent)">power system constraints and market realities</em>.</h1>
-    <p class="intro">I work at the intersection of power management, system architecture, and product strategy. My focus is translating circuit-level tradeoffs into product decisions that matter at platform scale.</p>
+    <p class="intro">I operate at the intersection of power management, system architecture, and product strategy — defining how circuit-level tradeoffs translate into product decisions at platform scale.</p>
 
     <div class="grid">
       <section class="block">
