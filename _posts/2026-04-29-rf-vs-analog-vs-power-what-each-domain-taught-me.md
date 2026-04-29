@@ -1,5 +1,5 @@
 ---
-title: RF vs Analog vs Power: What Each Domain Taught Me (and Where the Real Leverage Is)
+title: RF vs Analog vs Power: What Each Domain Taught Me ...and Where the Real Leverage Is
 date: 2026-04-29
 categories: [Semiconductor Career]
 tags: [RF, Analog, Power, Systems Thinking, Career]
