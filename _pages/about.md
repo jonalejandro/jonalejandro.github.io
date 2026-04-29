@@ -65,10 +65,10 @@ permalink: /about/
     <div class="grid">
       <section class="block">
         <h2>How I work</h2>
-        <p>My background is in defining power solutions that move from device capability to system value, balancing efficiency, performance, reliability, and cost across real product constraints.</p>
-        <p>Over time, my work has increasingly focused on cross-domain problems where power is not an isolated function, but part of a larger platform challenge involving silicon, firmware, thermal behavior, RF subsystems, and customer requirements.</p>
-        <p>I am especially interested in how technical tradeoffs become product decisions: which constraints matter most, where integration creates leverage, and how system-level thinking can shape roadmap direction.</p>
-        <p>This site is where I write about power systems, reliability, and engineering tradeoffs that influence product outcomes.</p>
+        <p>My work focuses on translating device capability into system value—balancing efficiency, performance, reliability, and cost across real product constraints and business objectives.</p>
+        <p>Increasingly, this involves cross-domain problems where power is not isolated, but tightly coupled with firmware behavior, thermal limits, RF subsystems, and platform-level requirements.</p>
+        <p>The core challenge is not identifying tradeoffs—it’s determining which constraints matter most, where integration creates leverage, and how those decisions shape roadmap direction, product positioning, and long-term portfolio value.</p>
+        <p>This site is where I write about systems, reliability, and engineering tradeoffs that influence product outcomes.</p>
       </section>
 
       <aside class="block">
