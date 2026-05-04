@@ -10,7 +10,7 @@ plugins:
 
 author:
   name: "Jon Alejandro"
-  avatar: "/assets/images/profile.jpg"
+  avatar: "/assets/profile.jpg"
   bio: "Product Line Manager - PMICs, DC-DC, RF Biasing & semiconductor strategy."
   location: "Dallas, TX"
   links:
