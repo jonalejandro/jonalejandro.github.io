@@ -1,6 +1,6 @@
 title: "Jon Alejandro"
 name: "Jon Alejandro"
-description: "Power Management ICs | Semiconductor Strategy | System Power Architecture"
+description: "Semiconductor product strategy grounded in power and RF system constraints, customer needs, and business results."
 url: "https://jonalejandro.com"
 
 remote_theme: "mmistakes/minimal-mistakes"
@@ -46,3 +46,9 @@ sass:
 
 minimal_mistakes_skin: "default"
 
+
+exclude:
+  - README.md
+  - scripts
+  - Gemfile
+  - Gemfile.lock
