@@ -1,0 +1,69 @@
+---
+layout: themed
+title: "Aerobic efficiency"
+permalink: /running/
+eyebrow: "Running · COROS"
+subtitle: "My terrain-adjusted running pace, normalized to a common 145 bpm effort."
+description: "A public view of Jon Alejandro’s aerobic efficiency trend using COROS adjusted pace normalized to 145 bpm."
+---
+<section class="run-summary" aria-label="Current aerobic efficiency summary">
+  <div><span class="run-stat">13:18<span>/mi</span></span><span class="run-stat-label">Latest estimate</span></div>
+  <div><span class="run-stat run-stat-positive">−22<span> sec/mi</span></span><span class="run-stat-label">Recent monthly trend</span></div>
+  <div><span class="run-stat">145<span> bpm</span></span><span class="run-stat-label">Normalized effort</span></div>
+</section>
+
+<section class="run-panel" aria-labelledby="pace-chart-title">
+  <div class="run-panel-heading">
+    <div>
+      <p class="section-label">July 12–September 6, 2026</p>
+      <h2 id="pace-chart-title">Adjusted pace at 145 bpm</h2>
+    </div>
+    <div class="run-legend" aria-hidden="true"><span><i class="run-dot"></i>Qualifying run</span><span><i class="run-line"></i>Recent trend</span></div>
+  </div>
+
+  <div class="run-chart-scroll">
+    <svg class="run-chart" viewBox="0 0 900 460" role="img" aria-labelledby="chart-title chart-desc">
+      <title id="chart-title">Adjusted running pace normalized to 145 beats per minute</title>
+      <desc id="chart-desc">Ten qualifying aerobic runs from July 12 through September 6, 2026. The fitted trend from August 6 onward improves from about 13 minutes 32 seconds per mile to 13 minutes 10 seconds per mile.</desc>
+      <g class="chart-grid">
+        <line x1="95" y1="55" x2="850" y2="55"/><line x1="95" y1="112" x2="850" y2="112"/>
+        <line x1="95" y1="170" x2="850" y2="170"/><line x1="95" y1="227" x2="850" y2="227"/>
+        <line x1="95" y1="284" x2="850" y2="284"/><line x1="95" y1="342" x2="850" y2="342"/>
+      </g>
+      <g class="chart-axis-labels">
+        <text x="79" y="60">12:20</text><text x="79" y="117">12:40</text><text x="79" y="175">13:00</text>
+        <text x="79" y="232">13:20</text><text x="79" y="289">13:40</text><text x="79" y="347">14:00</text>
+        <text x="95" y="405" text-anchor="start">Jul 12</text><text x="432" y="405" text-anchor="middle">Aug 6</text>
+        <text x="553" y="405" text-anchor="middle">Aug 15</text><text x="715" y="405" text-anchor="middle">Aug 27</text>
+        <text x="850" y="405" text-anchor="end">Sep 6</text>
+        <text class="axis-title" transform="translate(23 225) rotate(-90)" text-anchor="middle">pace at 145 bpm (min/mile)</text>
+      </g>
+      <line class="trend-line" x1="432" y1="261" x2="850" y2="198"/>
+      <g class="chart-points">
+        <circle class="early-point" cx="95" cy="75" r="7"><title>Jul 12: 12:27 per mile; early baseline</title></circle>
+        <circle cx="432" cy="213" r="7"><title>Aug 6: 13:15 per mile</title></circle>
+        <circle cx="486" cy="215" r="7"><title>Aug 10: 13:16 per mile</title></circle>
+        <circle cx="526" cy="334" r="7"><title>Aug 13: 13:57 per mile</title></circle>
+        <circle cx="553" cy="245" r="7"><title>Aug 15: 13:26 per mile</title></circle>
+        <circle cx="715" cy="241" r="7"><title>Aug 27: 13:25 per mile</title></circle>
+        <circle cx="756" cy="260" r="7"><title>Aug 30: 13:31 per mile</title></circle>
+        <circle cx="769" cy="203" r="7"><title>Aug 31: 13:12 per mile</title></circle>
+        <circle cx="837" cy="112" r="7"><title>Sep 5: 12:40 per mile</title></circle>
+        <circle cx="850" cy="220" r="7"><title>Sep 6: 13:18 per mile</title></circle>
+      </g>
+    </svg>
+  </div>
+
+  <p class="run-caption"><strong>Directionally improving.</strong> The August-to-September fit is about 22 seconds per mile faster each month. Individual runs still vary enough that I treat this as an emerging trend rather than a settled performance gain.</p>
+</section>
+
+<section class="run-method rich" aria-labelledby="method-title">
+  <h2 id="method-title">How I calculate it</h2>
+  <p>I use steady aerobic laps near 145 bpm, convert COROS adjusted pace to speed, fit speed against heart rate, and evaluate each run at exactly 145 bpm. Warmups, short recordings, threshold sessions, and travel or unusually hilly runs are excluded.</p>
+  <p>Adjusted pace estimates equivalent flat-ground pace. Weather, fatigue, cardiac drift, and terrain can still move an individual point, so the multi-week trend matters more than any single run.</p>
+  <details class="run-data"><summary>View plotted values</summary>
+    <div class="run-table-wrap"><table><thead><tr><th>Date</th><th>Pace at 145 bpm</th></tr></thead><tbody>
+      <tr><td>Jul 12</td><td>12:27/mi</td></tr><tr><td>Aug 6</td><td>13:15/mi</td></tr><tr><td>Aug 10</td><td>13:16/mi</td></tr><tr><td>Aug 13</td><td>13:57/mi</td></tr><tr><td>Aug 15</td><td>13:26/mi</td></tr><tr><td>Aug 27</td><td>13:25/mi</td></tr><tr><td>Aug 30</td><td>13:31/mi</td></tr><tr><td>Aug 31</td><td>13:12/mi</td></tr><tr><td>Sep 5</td><td>12:40/mi</td></tr><tr><td>Sep 6</td><td>13:18/mi</td></tr>
+    </tbody></table></div>
+  </details>
+</section>
