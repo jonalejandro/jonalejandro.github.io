@@ -1,0 +1,11 @@
+{% assign post = include.post %}
+{% assign word_count = post.content | strip_html | number_of_words %}
+{% assign reading_minutes = word_count | plus: 199 | divided_by: 200 | at_least: 1 %}
+<article class="post-item">
+  <div>
+    <p class="post-tag">{{ post.topic | default: post.categories.first | default: 'Product strategy' | escape }}</p>
+    <h3 class="post-title"><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+    <p class="post-excerpt">{{ post.excerpt | strip_html | normalize_whitespace | escape }}</p>
+  </div>
+  <p class="post-meta"><time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%b %-d, %Y' }}</time><br>{{ reading_minutes }} min read</p>
+</article>

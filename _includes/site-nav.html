@@ -1,0 +1,11 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-nav">
+  <a class="nav-logo" href="{{ '/' | relative_url }}">Jon Alejandro</a>
+  <nav aria-label="Main navigation">
+    <ul class="nav-links">
+      <li><a href="{{ '/notes/' | relative_url }}" {% if page.url == '/notes/' or page.layout == 'themed_post' %}aria-current="{% if page.url == '/notes/' %}page{% else %}true{% endif %}"{% endif %}>Writing</a></li>
+      <li><a href="{{ '/about/' | relative_url }}" {% if page.url == '/about/' %}aria-current="page"{% endif %}>About</a></li>
+      <li><a href="{{ '/contact/' | relative_url }}" {% if page.url == '/contact/' %}aria-current="page"{% endif %}>Contact</a></li>
+    </ul>
+  </nav>
+</header>
