@@ -66,7 +66,9 @@ feed = ET.parse(root / 'feed.xml')
 entries = feed.findall('{http://www.w3.org/2005/Atom}entry')
 assert len(entries) >= 4, 'RSS is missing published essays'
 sitemap = ET.parse(root / 'sitemap.xml')
-assert len(sitemap.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url')) >= 9, 'Sitemap is missing pages'
+sitemap_urls = [node.text for node in sitemap.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
+assert len(sitemap_urls) == len(pages), 'Sitemap must list every HTML page and no assets'
+assert set(sitemap_urls) == {page.canonical[0] for page in pages.values()}, 'Sitemap does not match page canonical URLs'
 home = (root / 'index.html').read_text()
 assert 'rf-vs-analog-vs-power' in home, 'Homepage is missing the latest essay'
 assert 'profile.png' not in home, 'Homepage still loads the original large portrait'
