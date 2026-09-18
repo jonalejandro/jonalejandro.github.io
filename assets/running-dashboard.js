@@ -1,0 +1,175 @@
+const RUNS = [
+  { date: "2026-07-12", pace: 747, included: false, status: "Early baseline", note: "Early baseline outside the recent trend window." },
+  { date: "2026-08-06", pace: 778, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-10", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-15", pace: 785, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-27", pace: 794, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-30", pace: 824, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-31", pace: 797, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-05", pace: 759, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-06", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-10", pace: 769, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-12", pace: 731, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+  { date: "2026-09-15", pace: 843, included: false, status: "Excluded observation", note: "Excluded in the source data; it does not affect the fit." },
+  { date: "2026-09-17", pace: 714, included: false, status: "Short-run estimate", note: "Short-run estimate; excluded because it does not meet the qualification rules." },
+  { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+];
+
+const $ = (selector) => document.querySelector(selector);
+const svgNS = "http://www.w3.org/2000/svg";
+const dayMs = 86_400_000;
+let selectedIndex = RUNS.length - 1;
+let view = "all";
+
+function dateValue(run) { return Date.parse(`${run.date}T00:00:00Z`) / dayMs; }
+function formatPace(seconds) { return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`; }
+function shortDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
+function longDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
+
+function regression(runs) {
+  const points = runs.filter((run) => run.included);
+  const meanX = points.reduce((sum, run) => sum + dateValue(run), 0) / points.length;
+  const meanY = points.reduce((sum, run) => sum + run.pace, 0) / points.length;
+  const numerator = points.reduce((sum, run) => sum + (dateValue(run) - meanX) * (run.pace - meanY), 0);
+  const denominator = points.reduce((sum, run) => sum + (dateValue(run) - meanX) ** 2, 0);
+  const slope = numerator / denominator;
+  return { slope, intercept: meanY - slope * meanX, monthly: slope * 30.44 };
+}
+
+const fullFit = regression(RUNS);
+
+function trendEffect(index) {
+  const run = RUNS[index];
+  if (!run.included) return { label: "No effect", detail: "Excluded from the trend" };
+  const without = regression(RUNS.filter((_, i) => i !== index));
+  const delta = fullFit.monthly - without.monthly;
+  if (Math.abs(delta) < .5) return { label: "<1 sec/mo", detail: "Nearly neutral to the fit" };
+  const magnitude = Math.abs(Math.round(delta));
+  return delta < 0
+    ? { label: `${magnitude} sec/mo faster`, detail: `Makes the monthly trend ${magnitude} sec/mi faster` }
+    : { label: `${magnitude} sec/mo slower`, detail: `Makes the monthly trend ${magnitude} sec/mi slower` };
+}
+
+function svgEl(name, attrs = {}, text = "") {
+  const element = document.createElementNS(svgNS, name);
+  Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
+  if (text) element.textContent = text;
+  return element;
+}
+
+function drawChart() {
+  const svg = $("#pace-chart");
+  svg.replaceChildren();
+  const width = 960, height = 430;
+  const margin = { top: 30, right: 28, bottom: 58, left: 76 };
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+  const minX = Math.min(...RUNS.map(dateValue));
+  const maxX = Math.max(...RUNS.map(dateValue));
+  const minY = 690, maxY = 870;
+  const x = (value) => margin.left + ((value - minX) / (maxX - minX)) * innerW;
+  const y = (value) => margin.top + ((value - minY) / (maxY - minY)) * innerH;
+
+  const yTicks = [690, 720, 750, 780, 810, 840, 870];
+  yTicks.forEach((tick) => {
+    svg.append(svgEl("line", { x1: margin.left, y1: y(tick), x2: width - margin.right, y2: y(tick), class: "grid-line" }));
+    svg.append(svgEl("text", { x: margin.left - 12, y: y(tick) + 4, "text-anchor": "end", class: "axis-label" }, formatPace(tick)));
+  });
+
+  const xTickIndexes = [0, 1, 4, 7, 10, 13];
+  xTickIndexes.forEach((index, tickIndex) => {
+    const run = RUNS[index];
+    const anchor = tickIndex === 0 ? "start" : tickIndex === xTickIndexes.length - 1 ? "end" : "middle";
+    svg.append(svgEl("text", { x: x(dateValue(run)), y: height - 18, "text-anchor": anchor, class: "axis-label" }, shortDate(run.date)));
+  });
+  svg.append(svgEl("text", { x: 17, y: height / 2, transform: `rotate(-90 17 ${height / 2})`, "text-anchor": "middle", class: "axis-title" }, "pace at 145 bpm · faster ↑"));
+
+  const trendRuns = RUNS.filter((run) => run.included);
+  const trendStartX = dateValue(trendRuns[0]);
+  const trendEndX = dateValue(trendRuns.at(-1));
+  svg.append(svgEl("line", {
+    x1: x(trendStartX), y1: y(fullFit.intercept + fullFit.slope * trendStartX),
+    x2: x(trendEndX), y2: y(fullFit.intercept + fullFit.slope * trendEndX), class: "trend-line"
+  }));
+
+  const selected = RUNS[selectedIndex];
+  svg.append(svgEl("line", { x1: x(dateValue(selected)), y1: margin.top, x2: x(dateValue(selected)), y2: height - margin.bottom, class: "selected-guide" }));
+
+  RUNS.forEach((run, index) => {
+    const circle = svgEl("circle", {
+      cx: x(dateValue(run)), cy: y(run.pace), r: index === selectedIndex ? 10 : 7,
+      class: `chart-point ${run.included ? "included" : "excluded"}${index === selectedIndex ? " selected" : ""}${view === "trend" && !run.included ? " hidden" : ""}`,
+      tabindex: view === "trend" && !run.included ? "-1" : "0", role: "button",
+      "aria-label": `${longDate(run.date)}, ${formatPace(run.pace)} per mile, ${run.included ? "included in trend" : "excluded from trend"}`
+    });
+    circle.append(svgEl("title", {}, `${shortDate(run.date)} · ${formatPace(run.pace)}/mi · ${run.status}`));
+    circle.addEventListener("click", () => selectRun(index));
+    circle.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectRun(index); }
+    });
+    svg.append(circle);
+  });
+}
+
+function renderTable() {
+  const body = $("#run-rows");
+  body.replaceChildren();
+  [...RUNS].reverse().forEach((run) => {
+    const index = RUNS.indexOf(run);
+    const effect = trendEffect(index);
+    const row = document.createElement("tr");
+    row.className = `run-row ${run.included ? "" : "excluded"}${index === selectedIndex ? " selected" : ""}`;
+    row.tabIndex = 0;
+    row.setAttribute("aria-label", `Inspect ${longDate(run.date)}`);
+    row.innerHTML = `<td>${shortDate(run.date)}</td><td><strong>${formatPace(run.pace)}</strong>/mi</td><td><span class="status-mini">${run.included ? "Included" : "Excluded"}</span></td><td class="effect-cell">${effect.label}</td>`;
+    row.addEventListener("click", () => selectRun(index));
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectRun(index); }
+    });
+    body.append(row);
+  });
+}
+
+function renderInspector() {
+  const run = RUNS[selectedIndex];
+  const effect = trendEffect(selectedIndex);
+  $("#selected-status").textContent = run.included ? "Included" : "Excluded";
+  $("#selected-status").className = `status-pill${run.included ? "" : " excluded"}`;
+  $("#selected-laps").textContent = run.status;
+  $("#selected-date").textContent = longDate(run.date);
+  $("#selected-pace").innerHTML = `${formatPace(run.pace)}<span>/mi</span>`;
+  $("#selected-qualification").textContent = run.included ? "Qualifying · included in trend" : `${run.status} · excluded from trend`;
+  $("#selected-effect").textContent = effect.detail;
+  $("#selected-note").textContent = run.note;
+}
+
+function selectRun(index) {
+  selectedIndex = index;
+  renderTable();
+  renderInspector();
+  drawChart();
+}
+
+function renderSummary() {
+  const monthly = Math.round(fullFit.monthly);
+  $("#trend-value").innerHTML = `${monthly < 0 ? "−" : "+"}${Math.abs(monthly)}<small> sec/mi</small>`;
+  $("#trend-meaning").textContent = monthly < 0 ? "Directionally improving" : monthly > 0 ? "Directionally slowing" : "Flat recent trend";
+  $("#included-count").innerHTML = `${RUNS.filter((run) => run.included).length}<small> / ${RUNS.length}</small>`;
+}
+
+document.querySelectorAll("[data-view]").forEach((button) => {
+  button.addEventListener("click", () => {
+    view = button.dataset.view;
+    document.querySelectorAll("[data-view]").forEach((item) => {
+      const active = item === button;
+      item.classList.toggle("active", active);
+      item.setAttribute("aria-pressed", String(active));
+    });
+    drawChart();
+  });
+});
+
+renderSummary();
+renderTable();
+renderInspector();
+drawChart();

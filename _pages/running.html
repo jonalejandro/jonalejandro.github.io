@@ -4,79 +4,54 @@ title: "Aerobic efficiency"
 permalink: /running/
 eyebrow: "Running · COROS"
 subtitle: "My grade- and climate-adjusted running pace, normalized to a common 145 bpm effort."
-description: "A public view of Jon Alejandro’s aerobic efficiency trend using grade and climate estimates normalized to 145 bpm."
+description: "An interactive view of Jon Alejandro’s aerobic efficiency trend using grade and climate estimates normalized to 145 bpm."
 ---
-<section class="run-summary" aria-label="Current aerobic efficiency summary">
-  <div><span class="run-stat">13:25<span>/mi</span></span><span class="run-stat-label">Latest observation</span></div>
-  <div><span class="run-stat run-stat-positive">−7<span> sec/mi</span></span><span class="run-stat-label">Recent monthly trend</span></div>
-  <div><span class="run-stat">145<span> bpm</span></span><span class="run-stat-label">Normalized effort</span></div>
-</section>
+<div class="running-dashboard" id="dashboard">
+  <section class="rd-summary" aria-label="Current aerobic efficiency summary">
+    <article><p>Latest observation</p><strong id="latest-pace">13:25<small>/mi</small></strong><span id="latest-date">Sep 18</span></article>
+    <article><p>Recent monthly trend</p><strong class="positive" id="trend-value">−7<small> sec/mi</small></strong><span id="trend-meaning">Directionally improving</span></article>
+    <article><p>Runs in recent fit</p><strong id="included-count">11<small> / 14</small></strong><span>Qualifying observations</span></article>
+  </section>
 
-<section class="run-panel" aria-labelledby="pace-chart-title">
-  <div class="run-panel-heading">
-    <div>
-      <p class="section-label">July 12–September 18, 2026</p>
-      <h2 id="pace-chart-title">Grade + climate pace at 145 bpm</h2>
+  <section class="rd-panel" aria-labelledby="chart-title">
+    <div class="rd-section-head">
+      <div><p class="rd-label">July 12–September 18, 2026</p><h2 id="chart-title">Grade + climate pace at 145 bpm</h2></div>
+      <div class="rd-segmented" aria-label="Chart point visibility">
+        <button type="button" class="active" data-view="all" aria-pressed="true">All runs</button>
+        <button type="button" data-view="trend" aria-pressed="false">Trend only</button>
+      </div>
     </div>
-    <div class="run-legend" aria-hidden="true"><span><i class="run-dot"></i>Included run</span><span><i class="run-dot" style="background:#9aa0a6;border-color:#737982"></i>Excluded observation</span><span><i class="run-line"></i>Recent trend</span></div>
-  </div>
+    <div class="rd-legend" aria-label="Chart legend">
+      <span><i class="rd-dot included"></i>Included</span><span><i class="rd-dot excluded"></i>Excluded from trend</span><span><i class="rd-line"></i>Recent fit</span>
+    </div>
+    <div class="rd-chart-wrap">
+      <svg id="pace-chart" viewBox="0 0 960 430" role="img" aria-labelledby="chart-title chart-description"><desc id="chart-description">Interactive scatterplot of adjusted pace by date. Faster pace appears higher. Select a run to inspect its qualification status and effect on the trend.</desc></svg>
+    </div>
+    <p class="rd-instruction">Select any point—or a row below—to inspect how that run affects the fit.</p>
+    <div class="rd-method-strip">
+      <div><span>Target effort</span><strong>145 bpm</strong></div><div><span>Qualifying lap</span><strong>10+ minutes</strong></div><div><span>Accepted HR</span><strong>140–150 bpm</strong></div><div><span>Trend model</span><strong>Linear · 30.44 days</strong></div>
+    </div>
+  </section>
 
-  <div class="run-chart-scroll">
-    <svg class="run-chart" viewBox="0 0 900 460" role="img" aria-labelledby="chart-title chart-desc">
-      <title id="chart-title">Adjusted running pace normalized to 145 beats per minute</title>
-      <desc id="chart-desc">Fourteen plotted runs through September 18, 2026. Pace is in minutes per mile at 145 bpm; faster values are higher on the chart. The September 15 and September 17 observations are shown in gray and excluded from the trend. The recent trend uses eleven qualifying runs from August 6 through September 18 and excludes the July baseline.</desc>
-      <g class="chart-grid">
-        <line x1="95" y1="55" x2="850" y2="55"/><line x1="95" y1="103" x2="850" y2="103"/>
-        <line x1="95" y1="151" x2="850" y2="151"/><line x1="95" y1="199" x2="850" y2="199"/>
-        <line x1="95" y1="247" x2="850" y2="247"/><line x1="95" y1="295" x2="850" y2="295"/>
-        <line x1="95" y1="343" x2="850" y2="343"/>
-      </g>
-      <g class="chart-axis-labels">
-        <text x="79" y="60">11:30</text><text x="79" y="108">12:00</text><text x="79" y="156">12:30</text>
-        <text x="79" y="204">13:00</text><text x="79" y="252">13:30</text><text x="79" y="300">14:00</text>
-        <text x="79" y="348">14:30</text>
-        
-
-
-
-
-<text x="95.0" y="405" text-anchor="start">Jul 12</text>
-<text x="372.6" y="405" text-anchor="middle">Aug 6</text>
-<text x="472.5" y="405" text-anchor="middle">Aug 15</text>
-<text x="605.7" y="405" text-anchor="middle">Aug 27</text>
-<text x="850.0" y="405" text-anchor="end">Sep 18</text>
-<text class="axis-title" transform="translate(23 225) rotate(-90)" text-anchor="middle">pace at 145 bpm (min/mile)</text>
-      </g>
-      <line class="trend-line" x1="372.6" y1="211.6" x2="850.0" y2="195.4"/>
-      <g class="chart-points">
-<circle class="early-point" cx="95.0" cy="146.2" r="7"><title>Jul 12: 12:27 per mile; early baseline, excluded from trend</title></circle>
-<circle cx="372.6" cy="195.8" r="7"><title>Aug 6: 12:58 per mile</title></circle>
-<circle cx="417.0" cy="202.2" r="7"><title>Aug 10: 13:02 per mile</title></circle>
-<circle cx="472.5" cy="207.0" r="7"><title>Aug 15: 13:05 per mile</title></circle>
-<circle cx="605.7" cy="221.4" r="7"><title>Aug 27: 13:14 per mile</title></circle>
-<circle cx="639.0" cy="269.4" r="7"><title>Aug 30: 13:44 per mile</title></circle>
-<circle cx="650.1" cy="226.2" r="7"><title>Aug 31: 13:17 per mile</title></circle>
-<circle cx="705.7" cy="165.4" r="7"><title>Sep 5: 12:39 per mile</title></circle>
-<circle cx="716.8" cy="202.2" r="7"><title>Sep 6: 13:02 per mile</title></circle>
-<circle cx="761.2" cy="181.4" r="7"><title>Sep 10: 12:49 per mile</title></circle>
-<circle cx="783.4" cy="120.6" r="7"><title>Sep 12: 12:11 per mile; one qualifying lap</title></circle>
-<circle cx="816.7" cy="299.8" r="7" style="fill:#9aa0a6;stroke:#737982"><title>Sep 15: 14:03 per mile; excluded from trend</title></circle>
-<circle cx="838.9" cy="93.4" r="7" style="fill:#9aa0a6;stroke:#737982"><title>Sep 17: 11:54 per mile; short-run estimate excluded from trend</title></circle>
-<circle cx="850.0" cy="239.0" r="7"><title>Sep 18: 13:25 per mile; one qualifying lap</title></circle>
-</g>
-    </svg>
-  </div>
-
-  <p class="run-caption"><strong>Directionally improving.</strong> The August 6–September 18 fit is about 7 seconds per mile faster per month. The September 15 and September 17 observations are shown in gray for context and are not included in the fit.</p>
-</section>
-
-<section class="run-method rich" aria-labelledby="method-title">
-  <h2 id="method-title">How I calculate it</h2>
-  <p>I use steady aerobic laps near 145 bpm and estimate equivalent pace after accounting for route grade and climate. Grade is modeled from the route elevation profile with the Minetti energy-cost curve. Climate uses temperature, dew point, humidity, and modeled wind exposure from nearby weather observations. Qualifying laps last at least 10 minutes, have an average heart rate of 140–150 bpm, and exclude the first lap. Warmups, short recordings, threshold sessions, trail runs, indoor runs, and altitude or travel runs are excluded.</p>
-  <p class="detail">Calibration: speed is normalized to 145 bpm using the initial fitted heart-rate correction, grade is converted to energetic cost with the Minetti curve, and climate is estimated from observed temperature, dew point, humidity, and wind. Corrected speeds are averaged by qualifying-lap duration. The climate calculation is a transparent estimate, not COROS’s unpublished implementation. The trend is an unweighted linear fit of included run pace against date, scaled to 30.44 days; it is not a forecast.</p>
-  <p>Grade + climate pace estimates an equivalent effort under normalized terrain and weather conditions. Fatigue, sleep, fueling, cardiac drift, surface, and weather-station distance can still move an individual point, so the multi-week trend matters more than any single run.</p>
-  <p class="detail">Updated through September 18, 2026. The July point remains an early baseline excluded from the recent trend. August 13 was removed because it was a threshold session. September 12 is based on one qualifying lap and should be interpreted cautiously. September 15 is shown in gray and excluded from the trend. September 17 is a short-run estimate shown in gray and excluded from the trend.</p>
-  <details class="run-data"><summary>View plotted values</summary>
-    <div class="run-table-wrap"><table><thead><tr><th>Date</th><th>Grade + climate pace at 145 bpm</th><th>Trend status</th></tr></thead><tbody><tr><td>Jul 12</td><td>12:27/mi</td><td>Early baseline</td></tr><tr><td>Aug 6</td><td>12:58/mi</td><td>Included</td></tr><tr><td>Aug 10</td><td>13:02/mi</td><td>Included</td></tr><tr><td>Aug 15</td><td>13:05/mi</td><td>Included</td></tr><tr><td>Aug 27</td><td>13:14/mi</td><td>Included</td></tr><tr><td>Aug 30</td><td>13:44/mi</td><td>Included</td></tr><tr><td>Aug 31</td><td>13:17/mi</td><td>Included</td></tr><tr><td>Sep 5</td><td>12:39/mi</td><td>Included</td></tr><tr><td>Sep 6</td><td>13:02/mi</td><td>Included</td></tr><tr><td>Sep 10</td><td>12:49/mi</td><td>Included</td></tr><tr><td>Sep 12</td><td>12:11/mi</td><td>Included</td></tr><tr><td>Sep 15</td><td>14:03/mi</td><td>Excluded observation</td></tr><tr><td>Sep 17</td><td>11:54/mi</td><td>Excluded observation</td></tr><tr><td>Sep 18</td><td>13:25/mi</td><td>Included</td></tr></tbody></table></div>
-  </details>
-</section>
+  <section class="rd-panel" aria-labelledby="explorer-title">
+    <div class="rd-section-head">
+      <div><p class="rd-label">Run explorer</p><h2 id="explorer-title">What changed the trend?</h2></div>
+      <p class="rd-kicker">The effect compares the current fit with the same fit after removing the selected run.</p>
+    </div>
+    <div class="rd-explorer-grid">
+      <div class="rd-table-wrap"><table><thead><tr><th>Date</th><th>Adjusted pace</th><th>Status</th><th>Trend effect</th></tr></thead><tbody id="run-rows"></tbody></table></div>
+      <aside class="rd-inspector" aria-live="polite" aria-labelledby="selected-date">
+        <div class="rd-inspector-top"><span id="selected-status" class="status-pill">Included</span><span id="selected-laps">Qualifying run</span></div>
+        <p class="rd-label">Selected run</p><h3 id="selected-date">Sep 18, 2026</h3><strong class="rd-inspector-pace" id="selected-pace">13:25<span>/mi</span></strong>
+        <dl><div><dt>Qualification</dt><dd id="selected-qualification">Qualifying · included in trend</dd></div><div><dt>Effect on trend</dt><dd id="selected-effect">Calculating…</dd></div><div><dt>Interpretation</dt><dd id="selected-note">One qualifying lap; interpret cautiously.</dd></div></dl>
+      </aside>
+    </div>
+    <details class="rd-method-details"><summary>View the full qualification rules and method</summary><div class="rd-method-copy">
+      <p>Steady aerobic laps must last at least 10 minutes, average 140–150 bpm, and cannot be the first lap. Warmups, short recordings, threshold sessions, trail runs, indoor runs, and altitude or travel runs are excluded.</p>
+      <p>Heart rate is normalized to 145 bpm using the initial fitted correction. Grade uses the Minetti energy-cost curve. Climate estimates use temperature, dew point, humidity, and modeled wind exposure. Corrected speeds are averaged by qualifying-lap duration.</p>
+      <p>The recent trend is an unweighted linear fit of included pace against date, scaled to 30.44 days. It is descriptive, not a forecast. Sleep, fatigue, fueling, cardiac drift, surface, and weather-station distance can still move a point.</p>
+    </div></details>
+  </section>
+  <p class="rd-updated">Updated through September 18, 2026 · No routes, coordinates, or location-derived labels are published.</p>
+</div>
+<script src="{{ '/assets/running-dashboard.js' | relative_url }}" defer></script>
