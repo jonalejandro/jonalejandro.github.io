@@ -15,6 +15,17 @@ const RUNS = [
   { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
 ];
 
+const WEEKS = [
+  { label: "Jul 27", miles: 4.1, runs: 2 },
+  { label: "Aug 3", miles: 10.2, runs: 3 },
+  { label: "Aug 10", miles: 8.9, runs: 3 },
+  { label: "Aug 17", miles: 8.8, runs: 2 },
+  { label: "Aug 24", miles: 16.7, runs: 4 },
+  { label: "Aug 31", miles: 12.8, runs: 4 },
+  { label: "Sep 7", miles: 8.0, runs: 3 },
+  { label: "Sep 14", miles: 12.1, runs: 4, current: true },
+];
+
 const $ = (selector) => document.querySelector(selector);
 const svgNS = "http://www.w3.org/2000/svg";
 const dayMs = 86_400_000;
@@ -157,6 +168,19 @@ function renderSummary() {
   $("#included-count").innerHTML = `${RUNS.filter((run) => run.included).length}<small> / ${RUNS.length}</small>`;
 }
 
+function renderWeekly() {
+  const chart = $("#weekly-chart");
+  const max = 22;
+  WEEKS.forEach((week) => {
+    const item = document.createElement("div");
+    item.className = `week-bar${week.current ? " current" : ""}`;
+    item.style.setProperty("--bar-h", `${Math.max(4, (week.miles / max) * 100)}%`);
+    item.setAttribute("title", `${week.label}: ${week.miles.toFixed(1)} miles across ${week.runs} runs`);
+    item.innerHTML = `<strong>${week.miles.toFixed(1)}</strong><i></i><span>${week.label}</span>`;
+    chart.append(item);
+  });
+}
+
 document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () => {
     view = button.dataset.view;
@@ -170,6 +194,7 @@ document.querySelectorAll("[data-view]").forEach((button) => {
 });
 
 renderSummary();
+renderWeekly();
 renderTable();
 renderInspector();
 drawChart();

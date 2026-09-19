@@ -1,57 +1,57 @@
 ---
-layout: themed
-title: "Aerobic efficiency"
+layout: null
 permalink: /running/
-eyebrow: "Running · COROS"
-subtitle: "My grade- and climate-adjusted running pace, normalized to a common 145 bpm effort."
-description: "An interactive view of Jon Alejandro’s aerobic efficiency trend using grade and climate estimates normalized to 145 bpm."
 ---
-<div class="running-dashboard" id="dashboard">
-  <section class="rd-summary" aria-label="Current aerobic efficiency summary">
-    <article><p>Latest observation</p><strong id="latest-pace">13:25<small>/mi</small></strong><span id="latest-date">Sep 18</span></article>
-    <article><p>Recent monthly trend</p><strong class="positive" id="trend-value">−7<small> sec/mi</small></strong><span id="trend-meaning">Directionally improving</span></article>
-    <article><p>Runs in recent fit</p><strong id="included-count">11<small> / 14</small></strong><span>Qualifying observations</span></article>
-  </section>
-
-  <section class="rd-panel" aria-labelledby="chart-title">
-    <div class="rd-section-head">
-      <div><p class="rd-label">July 12–September 18, 2026</p><h2 id="chart-title">Grade + climate pace at 145 bpm</h2></div>
-      <div class="rd-segmented" aria-label="Chart point visibility">
-        <button type="button" class="active" data-view="all" aria-pressed="true">All runs</button>
-        <button type="button" data-view="trend" aria-pressed="false">Trend only</button>
-      </div>
-    </div>
-    <div class="rd-legend" aria-label="Chart legend">
-      <span><i class="rd-dot included"></i>Included</span><span><i class="rd-dot excluded"></i>Excluded from trend</span><span><i class="rd-line"></i>Recent fit</span>
-    </div>
-    <div class="rd-chart-wrap">
-      <svg id="pace-chart" viewBox="0 0 960 430" role="img" aria-labelledby="chart-title chart-description"><desc id="chart-description">Interactive scatterplot of adjusted pace by date. Faster pace appears higher. Select a run to inspect its qualification status and effect on the trend.</desc></svg>
-    </div>
-    <p class="rd-instruction">Select any point—or a row below—to inspect how that run affects the fit.</p>
-    <div class="rd-method-strip">
-      <div><span>Target effort</span><strong>145 bpm</strong></div><div><span>Qualifying lap</span><strong>10+ minutes</strong></div><div><span>Accepted HR</span><strong>140–150 bpm</strong></div><div><span>Trend model</span><strong>Linear · 30.44 days</strong></div>
-    </div>
-  </section>
-
-  <section class="rd-panel" aria-labelledby="explorer-title">
-    <div class="rd-section-head">
-      <div><p class="rd-label">Run explorer</p><h2 id="explorer-title">What changed the trend?</h2></div>
-      <p class="rd-kicker">The effect compares the current fit with the same fit after removing the selected run.</p>
-    </div>
-    <div class="rd-explorer-grid">
-      <div class="rd-table-wrap"><table><thead><tr><th>Date</th><th>Adjusted pace</th><th>Status</th><th>Trend effect</th></tr></thead><tbody id="run-rows"></tbody></table></div>
-      <aside class="rd-inspector" aria-live="polite" aria-labelledby="selected-date">
-        <div class="rd-inspector-top"><span id="selected-status" class="status-pill">Included</span><span id="selected-laps">Qualifying run</span></div>
-        <p class="rd-label">Selected run</p><h3 id="selected-date">Sep 18, 2026</h3><strong class="rd-inspector-pace" id="selected-pace">13:25<span>/mi</span></strong>
-        <dl><div><dt>Qualification</dt><dd id="selected-qualification">Qualifying · included in trend</dd></div><div><dt>Effect on trend</dt><dd id="selected-effect">Calculating…</dd></div><div><dt>Interpretation</dt><dd id="selected-note">One qualifying lap; interpret cautiously.</dd></div></dl>
-      </aside>
-    </div>
-    <details class="rd-method-details"><summary>View the full qualification rules and method</summary><div class="rd-method-copy">
-      <p>Steady aerobic laps must last at least 10 minutes, average 140–150 bpm, and cannot be the first lap. Warmups, short recordings, threshold sessions, trail runs, indoor runs, and altitude or travel runs are excluded.</p>
-      <p>Heart rate is normalized to 145 bpm using the initial fitted correction. Grade uses the Minetti energy-cost curve. Climate estimates use temperature, dew point, humidity, and modeled wind exposure. Corrected speeds are averaged by qualifying-lap duration.</p>
-      <p>The recent trend is an unweighted linear fit of included pace against date, scaled to 30.44 days. It is descriptive, not a forecast. Sleep, fatigue, fueling, cardiac drift, surface, and weather-station distance can still move a point.</p>
-    </div></details>
-  </section>
-  <p class="rd-updated">Updated through September 18, 2026 · No routes, coordinates, or location-derived labels are published.</p>
-</div>
-<script src="{{ '/assets/running-dashboard.js' | relative_url }}" defer></script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A privacy-safe view of training consistency and grade- and climate-adjusted running efficiency." />
+    <meta name="theme-color" content="#f3f0e8" />
+    <title>Running development · Jon Alejandro</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317201b'/%3E%3Cpath d='M13 42h9l6-20 8 28 6-17h9' fill='none' stroke='%23d5663e' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/assets/running.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+    <header class="site-header">
+      <a class="wordmark" href="https://jonalejandro.com">JA<span>.</span></a>
+      <nav aria-label="Dashboard sections"><a href="#consistency">Consistency</a><a href="#efficiency">Efficiency</a><a href="#explorer">Run explorer</a></nav>
+    </header>
+    <main id="dashboard">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy"><p class="eyebrow">Running development</p><h1 id="page-title">The training behind the trend.</h1><p class="dek">One privacy-safe view of consistency, load, and equivalent aerobic pace—focused on whether the work is producing durable fitness.</p></div>
+        <div class="privacy-note" aria-label="Privacy note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.9 2.9 8.4 7 10 4.1-1.6 7-5.1 7-10V6l-7-3Zm0 3.1 4 1.7V11c0 3.2-1.6 5.7-4 7-2.4-1.3-4-3.8-4-7V7.8l4-1.7Z"/></svg><span>Public-safe aggregate<br><small>No routes, places, or start times</small></span></div>
+        <div class="summary-grid" aria-label="Current summary">
+          <article><p>Aerobic pace</p><strong id="latest-pace">13:25<small>/mi</small></strong><span>Grade + climate · 145 bpm</span></article>
+          <article><p>Monthly trend</p><strong class="positive" id="trend-value">−7<small> sec/mi</small></strong><span id="trend-meaning">Directionally improving</span></article>
+          <article><p>This week</p><strong>12.1<small> mi</small></strong><span>4 runs · 2h 33m</span></article>
+          <article><p>Load ratio</p><strong>1.27</strong><span><i class="status-dot"></i>Optimized</span></article>
+        </div>
+      </section>
+      <section class="dashboard-section" id="consistency" aria-labelledby="consistency-title">
+        <div class="section-head"><div><p class="eyebrow">Training consistency</p><h2 id="consistency-title">Is the work becoming repeatable?</h2></div><p class="section-kicker">Weekly totals are shown without workout times, locations, or activity links.</p></div>
+        <div class="consistency-grid">
+          <div class="weekly-panel"><div class="chart-meta"><span>Weekly running volume</span><strong>Recent 4-week average · 12.4 mi</strong></div><div class="weekly-chart" id="weekly-chart" role="img" aria-label="Eight-week bar chart of weekly running mileage"></div><div class="target-key"><span><i></i>Planned range · 15–22 mi</span><span>Current week through Saturday</span></div></div>
+          <aside class="consistency-stats"><div><span>Recent frequency</span><strong>3.8<small> runs/week</small></strong><p>15 runs across the last four weeks</p></div><div><span>Longest recent run</span><strong>70<small> min</small></strong><p>Reached in three recent weeks</p></div><div><span>Eight-week streak</span><strong>8<small> / 8</small></strong><p>At least two runs every week</p></div></aside>
+        </div>
+        <p class="insight"><span>Readout</span> Frequency is stabilizing near four runs per week. Volume remains below the 15–22 mile working range, so consistency—not adding more intensity—is the clearest next lever.</p>
+      </section>
+      <section class="dashboard-section" id="efficiency" aria-labelledby="chart-title">
+        <div class="section-head"><div><p class="eyebrow">Aerobic efficiency</p><h2 id="chart-title">Grade + climate pace at 145 bpm</h2></div><div class="segmented" aria-label="Chart point visibility"><button type="button" class="active" data-view="all" aria-pressed="true">All runs</button><button type="button" data-view="trend" aria-pressed="false">Trend only</button></div></div>
+        <div class="legend" aria-label="Chart legend"><span><i class="dot included"></i>Included</span><span><i class="dot excluded"></i>Excluded from trend</span><span><i class="line"></i>Recent fit</span></div>
+        <div class="chart-wrap"><svg id="pace-chart" viewBox="0 0 960 430" role="img" aria-labelledby="chart-title chart-description"><desc id="chart-description">Interactive scatterplot of adjusted pace by date. Faster pace appears higher. Select a run to inspect its qualification status and effect on the trend.</desc></svg></div>
+        <p class="chart-instruction">Select any point—or a row below—to inspect how that run affects the fit.</p>
+        <div class="method-strip"><div><span>Target effort</span><strong>145 bpm</strong></div><div><span>Qualifying lap</span><strong>10+ minutes</strong></div><div><span>Accepted HR</span><strong>140–150 bpm</strong></div><div><span>Recent fit</span><strong>11 of 14 observations</strong></div></div>
+      </section>
+      <section class="dashboard-section" id="explorer" aria-labelledby="explorer-title">
+        <div class="section-head"><div><p class="eyebrow">Run explorer</p><h2 id="explorer-title">What changed the trend?</h2></div><p class="section-kicker">The effect compares the full fit with the same fit after removing the selected run.</p></div>
+        <div class="explorer-grid"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Adjusted pace</th><th>Status</th><th>Trend effect</th></tr></thead><tbody id="run-rows"></tbody></table></div><aside class="inspector" aria-live="polite" aria-labelledby="selected-date"><div class="inspector-topline"><span id="selected-status" class="status-pill">Included</span><span id="selected-laps">Qualifying run</span></div><p class="eyebrow">Selected run</p><h3 id="selected-date">Sep 18, 2026</h3><strong class="inspector-pace" id="selected-pace">13:25<span>/mi</span></strong><dl><div><dt>Qualification</dt><dd id="selected-qualification">Qualifying · included in trend</dd></div><div><dt>Effect on trend</dt><dd id="selected-effect">Calculating…</dd></div><div><dt>Interpretation</dt><dd id="selected-note">One qualifying lap; interpret cautiously.</dd></div></dl></aside></div>
+        <details class="method-details"><summary>View the full qualification rules and method</summary><div class="method-copy"><p>Steady aerobic laps must last at least 10 minutes, average 140–150 bpm, and cannot be the first lap. Warmups, short recordings, threshold sessions, trail runs, indoor runs, and altitude or travel runs are excluded.</p><p>Heart rate is normalized to 145 bpm using the initial fitted correction. Grade uses the Minetti energy-cost curve. Climate estimates use temperature, dew point, humidity, and modeled wind exposure. Corrected speeds are averaged by qualifying-lap duration.</p><p>The recent trend is an unweighted linear fit of included pace against date, scaled to 30.44 days. It is descriptive, not a forecast. Sleep, fatigue, fueling, cardiac drift, surface, and weather-station distance can still move a point.</p></div></details>
+      </section>
+    </main>
+    <footer><p>Source snapshot through Sep 19, 2026 · Public presentation contains aggregate training data only.</p><p>Build. Nourish. Move. Love.</p></footer>
+    <script src="/assets/running-dashboard.js" defer></script>
+  </body>
+</html>
