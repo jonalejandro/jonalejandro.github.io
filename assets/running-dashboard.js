@@ -165,7 +165,8 @@ function renderSummary() {
   const monthly = Math.round(fullFit.monthly);
   $("#trend-value").innerHTML = `${monthly < 0 ? "−" : "+"}${Math.abs(monthly)}<small> sec/mi</small>`;
   $("#trend-meaning").textContent = monthly < 0 ? "Directionally improving" : monthly > 0 ? "Directionally slowing" : "Flat recent trend";
-  $("#included-count").innerHTML = `${RUNS.filter((run) => run.included).length}<small> / ${RUNS.length}</small>`;
+  const includedCount = $("#included-count");
+  if (includedCount) includedCount.innerHTML = `${RUNS.filter((run) => run.included).length}<small> / ${RUNS.length}</small>`;
 }
 
 function renderWeekly() {
