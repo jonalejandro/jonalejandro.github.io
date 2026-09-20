@@ -1,31 +1,9 @@
 ---
-layout: null
+layout: base
 permalink: /running/
+seo_title: "Running development"
+description: "A privacy-safe view of training consistency and grade- and climate-adjusted running efficiency."
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A privacy-safe view of training consistency and grade- and climate-adjusted running efficiency." />
-    <link rel="canonical" href="https://jonalejandro.com/running/" />
-    <meta property="og:title" content="Running development · Jon Alejandro" />
-    <meta property="og:description" content="A privacy-safe view of training consistency and grade- and climate-adjusted running efficiency." />
-    <meta property="og:url" content="https://jonalejandro.com/running/" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#f3f0e8" />
-    <title>Running development · Jon Alejandro</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317201b'/%3E%3Cpath d='M13 42h9l6-20 8 28 6-17h9' fill='none' stroke='%23d5663e' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="/assets/running.css?v=20260919-2" />
-  </head>
-  <body>
-    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
-    <header class="site-header">
-      <a class="wordmark" href="https://jonalejandro.com">JA<span>.</span></a>
-      <nav aria-label="Dashboard sections"><a href="#consistency">Consistency</a><a href="#efficiency">Efficiency</a><a href="#explorer">Run explorer</a></nav>
-    </header>
-    <main id="dashboard">
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-copy"><p class="eyebrow">Running development</p><h1 id="page-title">The training behind the trend.</h1><p class="dek">One privacy-safe view of consistency, load, and equivalent aerobic pace—focused on whether the work is producing durable fitness.</p></div>
         <div class="privacy-note" aria-label="Privacy note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.9 2.9 8.4 7 10 4.1-1.6 7-5.1 7-10V6l-7-3Zm0 3.1 4 1.7V11c0 3.2-1.6 5.7-4 7-2.4-1.3-4-3.8-4-7V7.8l4-1.7Z"/></svg><span>Public-safe aggregate<br><small>No routes, places, or start times</small></span></div>
@@ -56,8 +34,4 @@ permalink: /running/
         <div class="explorer-grid"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Adjusted pace</th><th>Status</th><th>Trend effect</th></tr></thead><tbody id="run-rows"></tbody></table></div><aside class="inspector" aria-live="polite" aria-labelledby="selected-date"><div class="inspector-topline"><span id="selected-status" class="status-pill">Included</span><span id="selected-laps">Qualifying run</span></div><p class="eyebrow">Selected run</p><h3 id="selected-date">Sep 18, 2026</h3><strong class="inspector-pace" id="selected-pace">13:25<span>/mi</span></strong><dl><div><dt>Qualification</dt><dd id="selected-qualification">Qualifying · included in trend</dd></div><div><dt>Effect on trend</dt><dd id="selected-effect">Calculating…</dd></div><div><dt>Interpretation</dt><dd id="selected-note">One qualifying lap; interpret cautiously.</dd></div></dl></aside></div>
         <details class="method-details"><summary>View the full qualification rules and method</summary><div class="method-copy"><p>Steady aerobic laps must last at least 10 minutes, average 140–150 bpm, and cannot be the first lap. Warmups, short recordings, threshold sessions, trail runs, indoor runs, and altitude or travel runs are excluded.</p><p>Heart rate is normalized to 145 bpm using the initial fitted correction. Grade uses the Minetti energy-cost curve. Climate estimates use temperature, dew point, humidity, and modeled wind exposure. Corrected speeds are averaged by qualifying-lap duration.</p><p>The recent trend is an unweighted linear fit of included pace against date, scaled to 30.44 days. It is descriptive, not a forecast. Sleep, fatigue, fueling, cardiac drift, surface, and weather-station distance can still move a point.</p></div></details>
       </section>
-    </main>
-    <footer><p>Source snapshot through Sep 19, 2026 · Public presentation contains aggregate training data only.</p><p>Build. Nourish. Move. Love.</p></footer>
-    <script src="/assets/running-dashboard.js?v=20260919-2" defer></script>
-  </body>
-</html>
+<script src="/assets/running-dashboard.js?v=20260919-2" defer></script>
