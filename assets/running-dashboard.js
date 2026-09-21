@@ -40,15 +40,25 @@ function longDate(date) { return new Intl.DateTimeFormat("en-US", { month: "shor
 
 function regression(runs) {
   const points = runs.filter((run) => run.included);
+  if (points.length < 3) return null;
   const meanX = points.reduce((sum, run) => sum + dateValue(run), 0) / points.length;
   const meanY = points.reduce((sum, run) => sum + run.pace, 0) / points.length;
-  const numerator = points.reduce((sum, run) => sum + (dateValue(run) - meanX) * (run.pace - meanY), 0);
-  const denominator = points.reduce((sum, run) => sum + (dateValue(run) - meanX) ** 2, 0);
-  const slope = numerator / denominator;
-  return { slope, intercept: meanY - slope * meanX, monthly: slope * 30.44 };
+  const sxx = points.reduce((sum, run) => sum + (dateValue(run) - meanX) ** 2, 0);
+  const slope = points.reduce((sum, run) => sum + (dateValue(run) - meanX) * (run.pace - meanY), 0) / sxx;
+  const intercept = meanY - slope * meanX;
+  const sse = points.reduce((sum, run) => sum + (run.pace - (intercept + slope * dateValue(run))) ** 2, 0);
+  const slopeSE = Math.sqrt((sse / Math.max(1, points.length - 2)) / sxx);
+  const t = points.length > 10 ? 2.2 : 2.45;
+  return { slope, intercept, monthly: slope * 30.44, low: (slope - t * slopeSE) * 30.44, high: (slope + t * slopeSE) * 30.44, count: points.length, meanX };
 }
 
-const fullFit = regression(RUNS);
+function recentRuns(days) {
+  const latest = Math.max(...RUNS.map(dateValue));
+  return RUNS.filter((run) => dateValue(run) >= latest - days);
+}
+
+const fullFit = regression(recentRuns(56));
+const fourWeekFit = regression(recentRuns(28));
 
 function trendEffect(index) {
   const run = RUNS[index];
@@ -164,10 +174,22 @@ function selectRun(index) {
 
 function renderSummary() {
   const monthly = Math.round(fullFit.monthly);
-  $("#trend-value").innerHTML = `${monthly < 0 ? "−" : "+"}${Math.abs(monthly)}<small> sec/mi</small>`;
-  $("#trend-meaning").textContent = monthly < 0 ? "Directionally improving" : monthly > 0 ? "Directionally slowing" : "Flat recent trend";
-  const includedCount = $("#included-count");
-  if (includedCount) includedCount.innerHTML = `${RUNS.filter((run) => run.included).length}<small> / ${RUNS.length}</small>`;
+  const latest = RUNS.at(-1);
+  const recentWeeks = WEEKS.slice(-4);
+  const average = recentWeeks.reduce((sum, week) => sum + week.miles, 0) / recentWeeks.length;
+  const meaningful = fullFit.high < 0 || fullFit.low > 0;
+  $("#latest-pace").innerHTML = `${formatPace(latest.pace)}<small>/mi</small>`;
+  $("#latest-date").textContent = `${longDate(latest.date)} · ${latest.status}`;
+  $("#trend-value").innerHTML = `${monthly < 0 ? "−" : "+"}${Math.abs(monthly)}<small> sec/mi/mo</small>`;
+  $("#trend-meaning").textContent = meaningful ? "Statistically directional" : "Directionally improving · uncertainty includes flat";
+  $("#weekly-total").innerHTML = `${WEEKS.at(-1).miles.toFixed(1)}<small> mi</small>`;
+  $("#weekly-detail").textContent = `${WEEKS.at(-1).runs} runs · ${average.toFixed(1)} mi four-week average`;
+  $("#fit-count").innerHTML = `${fullFit.count}<small> observations</small>`;
+  $("#confidence-summary").textContent = `95% slope range: ${Math.round(fullFit.low)} to ${Math.round(fullFit.high)} sec/mi/month`;
+  $("#trend-4").textContent = fourWeekFit ? `${Math.round(fourWeekFit.monthly)} sec/mo` : "Not enough data";
+  $("#trend-8").textContent = `${Math.round(fullFit.monthly)} sec/mo`;
+  $("#signal-label").textContent = fullFit.high < 0 ? "Improvement signal" : fullFit.low > 0 ? "Regression signal" : "Mostly weather / run-to-run noise";
+  $("#data-status").textContent = `Snapshot verified · Current through ${longDate(latest.date)}`;
 }
 
 function renderWeekly() {
