@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import sys
+import re
 import xml.etree.ElementTree as ET
 
 class Page(HTMLParser):
@@ -35,7 +36,7 @@ class Page(HTMLParser):
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site').resolve()
 assert (root / 'index.html').exists(), 'Jekyll output is missing'
-expected = ['index.html', 'about/index.html', 'notes/index.html', 'resume/index.html', 'contact/index.html']
+expected = ['index.html', 'about/index.html', 'notes/index.html', 'resume/index.html', 'contact/index.html', 'running/index.html']
 for path in expected: assert (root / path).exists(), f'Missing page: {path}'
 pages = {}
 for path in root.rglob('*.html'):
@@ -75,3 +76,15 @@ assert 'profile.png' not in home, 'Homepage still loads the original large portr
 for path in pages:
     assert '{%' not in path.read_text(), f'{path}: unrendered Liquid tag'
 print(f'Checked {len(pages)} HTML pages, internal links, image sources, article metadata, RSS, and sitemap.')
+
+running_js = (root / 'assets/running-dashboard.js').read_text()
+run_rows = re.findall(r'\{ date: "(\d{4}-\d{2}-\d{2})", pace: (\d+), included: (true|false)', running_js)
+assert run_rows, 'Running data is missing'
+dates = [row[0] for row in run_rows]
+assert len(dates) == len(set(dates)), 'Running data has duplicate dates'
+assert dates == sorted(dates), 'Running data dates must be chronological'
+assert all(300 <= int(row[1]) <= 1800 for row in run_rows), 'Running pace is outside the validation range'
+running_page = (root / 'running/index.html').read_text()
+for required in ['data-status', 'confidence-summary', 'signal-label', 'running-dashboard.js']:
+    assert required in running_page, f'Running page is missing {required}'
+assert (root / 'assets/favicon.svg').exists(), 'Favicon is missing'
