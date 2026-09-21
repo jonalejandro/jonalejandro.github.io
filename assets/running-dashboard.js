@@ -1,18 +1,30 @@
 const RUNS = [
   { date: "2026-07-12", pace: 747, included: false, status: "Early baseline", note: "Early baseline outside the recent trend window." },
+  { date: "2026-08-01", pace: null, included: false, status: "High-intensity session", note: "High-intensity session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-08-02", pace: null, included: false, status: "Short high-intensity run", note: "Short high-intensity run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-08-04", pace: null, included: false, status: "Outside aerobic HR range", note: "Outside aerobic HR range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-06", pace: 778, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-07", pace: null, included: false, status: "Running fitness test", note: "Running fitness test; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-10", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-13", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-15", pace: 785, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-17", pace: null, included: false, status: "Indoor run", note: "Indoor run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-08-21", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-08-24", pace: null, included: false, status: "Altitude / travel run", note: "Altitude / travel run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-08-25", pace: null, included: false, status: "Altitude / travel run", note: "Altitude / travel run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-27", pace: 794, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
   { date: "2026-08-30", pace: 824, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
   { date: "2026-08-31", pace: 797, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-02", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-05", pace: 759, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
   { date: "2026-09-06", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-08", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-10", pace: 769, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
   { date: "2026-09-12", pace: 731, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
   { date: "2026-09-15", pace: 843, included: false, status: "Excluded observation", note: "Excluded in the source data; it does not affect the fit." },
   { date: "2026-09-17", pace: 714, included: false, status: "Short-run estimate", note: "Short-run estimate; excluded because it does not meet the qualification rules." },
   { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+  { date: "2026-09-19", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
 ];
 
@@ -34,7 +46,7 @@ let selectedIndex = RUNS.length - 1;
 let view = "all";
 
 function dateValue(run) { return Date.parse(`${run.date}T00:00:00Z`) / dayMs; }
-function formatPace(seconds) { return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`; }
+function formatPace(seconds) { if (!Number.isFinite(seconds)) return "—"; return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`; }
 function shortDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
 function longDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
 
@@ -102,7 +114,7 @@ function drawChart() {
     svg.append(svgEl("text", { x: margin.left - 12, y: y(tick) + 4, "text-anchor": "end", class: "axis-label" }, formatPace(tick)));
   });
 
-  const xTickIndexes = [0, 1, 4, 7, 10, 13];
+  const xTickIndexes = Array.from({ length: 6 }, (_, i) => Math.round(i * (RUNS.length - 1) / 5));
   xTickIndexes.forEach((index, tickIndex) => {
     const run = RUNS[index];
     const anchor = tickIndex === 0 ? "start" : tickIndex === xTickIndexes.length - 1 ? "end" : "middle";
@@ -137,6 +149,7 @@ function drawChart() {
   svg.append(svgEl("line", { x1: x(dateValue(selected)), y1: margin.top, x2: x(dateValue(selected)), y2: height - margin.bottom, class: "selected-guide" }));
 
   RUNS.forEach((run, index) => {
+    if (!Number.isFinite(run.pace)) return;
     const circle = svgEl("circle", {
       cx: x(dateValue(run)), cy: y(run.pace), r: index === selectedIndex ? 10 : 7,
       class: `chart-point ${run.included ? "included" : "excluded"}${index === selectedIndex ? " selected" : ""}${view === "trend" && !run.included ? " hidden" : ""}`,
@@ -162,7 +175,7 @@ function renderTable() {
     row.className = `run-row ${run.included ? "" : "excluded"}${index === selectedIndex ? " selected" : ""}`;
     row.tabIndex = 0;
     row.setAttribute("aria-label", `Inspect ${longDate(run.date)}`);
-    row.innerHTML = `<td>${shortDate(run.date)}</td><td><strong>${formatPace(run.pace)}</strong>/mi</td><td><span class="status-mini">${run.included ? "Included" : "Excluded"}</span></td><td class="effect-cell">${effect.label}</td>`;
+    row.innerHTML = `<td>${shortDate(run.date)}</td><td><strong>${formatPace(run.pace)}</strong>${Number.isFinite(run.pace) ? "/mi" : ""}</td><td><span class="status-mini">${run.included ? "Included" : "Excluded"}</span></td><td class="effect-cell">${effect.label}</td>`;
     row.addEventListener("click", () => selectRun(index));
     row.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectRun(index); }
@@ -178,7 +191,7 @@ function renderInspector() {
   $("#selected-status").className = `status-pill${run.included ? "" : " excluded"}`;
   $("#selected-laps").textContent = run.status;
   $("#selected-date").textContent = longDate(run.date);
-  $("#selected-pace").innerHTML = `${formatPace(run.pace)}<span>/mi</span>`;
+  $("#selected-pace").innerHTML = `${formatPace(run.pace)}${Number.isFinite(run.pace) ? "<span>/mi</span>" : "<span>Adjusted pace unavailable</span>"}`;
   $("#selected-qualification").textContent = run.included ? "Qualifying · included in trend" : `${run.status} · excluded from trend`;
   $("#selected-effect").textContent = effect.detail;
   $("#selected-note").textContent = run.note;
