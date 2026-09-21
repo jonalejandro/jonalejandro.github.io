@@ -13,6 +13,7 @@ const RUNS = [
   { date: "2026-09-15", pace: 843, included: false, status: "Excluded observation", note: "Excluded in the source data; it does not affect the fit." },
   { date: "2026-09-17", pace: 714, included: false, status: "Short-run estimate", note: "Short-run estimate; excluded because it does not meet the qualification rules." },
   { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+  { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
 ];
 
 const WEEKS = [
