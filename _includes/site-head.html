@@ -11,10 +11,15 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:type" content="{% if page.layout == 'themed_post' %}article{% else %}website{% endif %}">
 {% if page.layout == 'themed_post' %}<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">{% endif %}
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{{ '/assets/portrait-640.webp' | absolute_url }}">
+<meta property="og:image:alt" content="Portrait of Jon Alejandro">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ '/assets/portrait-640.webp' | absolute_url }}">
 <meta name="twitter:title" content="{{ meta_title | escape }}">
 <meta name="twitter:description" content="{{ meta_description | escape }}">
 <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
+<link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
+<script type="application/ld+json">{% if page.layout == 'themed_post' %}{"@context":"https://schema.org","@type":"Article","headline":{{ page.title | jsonify }},"description":{{ meta_description | jsonify }},"datePublished":"{{ page.date | date_to_xmlschema }}","author":{"@type":"Person","name":"Jon Alejandro","url":"{{ site.url }}"}}{% else %}{"@context":"https://schema.org","@type":"Person","name":"Jon Alejandro","url":"{{ site.url }}","jobTitle":"Product Line Manager","sameAs":["https://www.linkedin.com/in/jonalejandro","https://github.com/jonalejandro"]}{% endif %}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
