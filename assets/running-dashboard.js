@@ -23,7 +23,7 @@ const WEEKS = [
   { label: "Aug 24", miles: 16.7, runs: 4 },
   { label: "Aug 31", miles: 12.8, runs: 4 },
   { label: "Sep 7", miles: 8.0, runs: 3 },
-  { label: "Sep 14", miles: 12.1, runs: 4, current: true },
+  { label: "Sep 14", miles: 16.6, runs: 5 },
 ];
 
 const $ = (selector) => document.querySelector(selector);
