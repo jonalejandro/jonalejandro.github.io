@@ -48,8 +48,12 @@ function regression(runs) {
   const intercept = meanY - slope * meanX;
   const sse = points.reduce((sum, run) => sum + (run.pace - (intercept + slope * dateValue(run))) ** 2, 0);
   const slopeSE = Math.sqrt((sse / Math.max(1, points.length - 2)) / sxx);
-  const t = points.length > 10 ? 2.2 : 2.45;
-  return { slope, intercept, monthly: slope * 30.44, low: (slope - t * slopeSE) * 30.44, high: (slope + t * slopeSE) * 30.44, count: points.length, meanX };
+  // Two-sided Student-t 97.5th percentiles, indexed by residual degrees of freedom.
+  const critical = [0,12.706205,4.302653,3.182446,2.776445,2.570582,2.446912,2.364624,2.306004,2.262157,2.228139,2.200985,2.178813,2.160369,2.144787,2.131450,2.119905,2.109816,2.100922,2.093024,2.085963,2.079614,2.073873,2.068658,2.063899,2.059539,2.055529,2.051831,2.048407,2.045230,2.042272];
+  const df = points.length - 2;
+  const z = 1.95996398454;
+  const t = critical[df] ?? (z + (z**3 + z)/(4*df) + (5*z**5 + 16*z**3 + 3*z)/(96*df**2) + (3*z**7 + 19*z**5 + 17*z**3 - 15*z)/(384*df**3));
+  return { slope, intercept, monthly: slope * 30.44, low: (slope - t * slopeSE) * 30.44, high: (slope + t * slopeSE) * 30.44, count: points.length, meanX, sxx, residualVariance: sse / (points.length - 2), t };
 }
 
 function recentRuns(days) {
@@ -106,9 +110,24 @@ function drawChart() {
   });
   svg.append(svgEl("text", { x: 17, y: height / 2, transform: `rotate(-90 17 ${height / 2})`, "text-anchor": "middle", class: "axis-title" }, "pace at 145 bpm · faster ↑"));
 
-  const trendRuns = RUNS.filter((run) => run.included);
+  const trendRuns = recentRuns(56).filter((run) => run.included);
   const trendStartX = dateValue(trendRuns[0]);
   const trendEndX = dateValue(trendRuns.at(-1));
+  // Pointwise 95% confidence interval for the fitted mean, not prediction intervals.
+  const bandPoints = Array.from({ length: 81 }, (_, i) => {
+    const day = trendStartX + (trendEndX - trendStartX) * i / 80;
+    const fitted = fullFit.intercept + fullFit.slope * day;
+    const halfWidth = fullFit.t * Math.sqrt(fullFit.residualVariance *
+      (1 / fullFit.count + (day - fullFit.meanX) ** 2 / fullFit.sxx));
+    return { day, lower: fitted - halfWidth, upper: fitted + halfWidth };
+  });
+  svg.append(svgEl("polygon", {
+    points: [...bandPoints.map(p => [x(p.day), y(p.lower)]),
+      ...bandPoints.slice().reverse().map(p => [x(p.day), y(p.upper)])]
+      .map(p => p.join(",")).join(" "),
+    fill: "var(--warm)", "fill-opacity": "0.16", "pointer-events": "none",
+    "aria-label": "95% confidence band for the eight-week fitted mean pace"
+  }));
   svg.append(svgEl("line", {
     x1: x(trendStartX), y1: y(fullFit.intercept + fullFit.slope * trendStartX),
     x2: x(trendEndX), y2: y(fullFit.intercept + fullFit.slope * trendEndX), class: "trend-line"
