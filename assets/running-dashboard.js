@@ -26,7 +26,7 @@ const RUNS = [
   { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
   { date: "2026-09-19", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
-  { date: "2026-09-22", pace: null, included: false, status: "Climate coefficients unavailable", note: "Two post-warmup laps qualify. Historical run-window weather was recovered for Richardson (about 75–76°F, ~70–71°F dew point, ~80% relative humidity, light wind). The numerical climate-correction coefficients used for prior Grade + Climate points were not stored in the repository, so no replacement coefficient or adjusted pace was invented; this run remains excluded from the fitted trend." },
+  { date: "2026-09-22", pace: 720, included: true, status: "Included · two laps · v1.0.0", note: "Two post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.0.0 was applied using the preserved HR coefficient, Minetti grade normalization from the COROS FIT elevation profile, and recovered run-window weather (~75.5°F, ~70.5°F dew point; simplified WBGT ~27.6°C). Adjusted pace: 12:00/mi." },
 ];
 
 const WEEKS = [
