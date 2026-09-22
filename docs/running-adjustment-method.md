@@ -1,4 +1,9 @@
-## Grade + Climate 145-bpm method v1
+---
+layout: base
+seo_title: "Grade + Climate 145-bpm method v1"
+description: "Versioned methodology and constants for the running aerobic-efficiency dashboard."
+---
+# Grade + Climate 145-bpm method v1
 
 **Version:** 1.0.0  
 **Effective:** 2026-09-22  
