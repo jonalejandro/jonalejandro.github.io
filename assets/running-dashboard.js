@@ -26,6 +26,7 @@ const RUNS = [
   { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
   { date: "2026-09-19", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
+  { date: "2026-09-22", pace: null, included: false, status: "Adjusted pace unavailable", note: "Two post-warmup laps meet the steady aerobic qualification rules, but the stored Grade + Climate 145-bpm calculation inputs are incomplete. No adjusted pace was invented, so this run is excluded from the fitted trend." },
 ];
 
 const WEEKS = [
@@ -206,7 +207,8 @@ function selectRun(index) {
 
 function renderSummary() {
   const monthly = Math.round(fullFit.monthly);
-  const latest = RUNS.at(-1);
+  const latestRun = RUNS.at(-1);
+  const latest = [...RUNS].reverse().find((run) => Number.isFinite(run.pace));
   const recentWeeks = WEEKS.slice(-4);
   const average = recentWeeks.reduce((sum, week) => sum + week.miles, 0) / recentWeeks.length;
   const meaningful = fullFit.high < 0 || fullFit.low > 0;
@@ -221,7 +223,7 @@ function renderSummary() {
   $("#trend-4").textContent = fourWeekFit ? `${Math.round(fourWeekFit.monthly)} sec/mo` : "Not enough data";
   $("#trend-8").textContent = `${Math.round(fullFit.monthly)} sec/mo`;
   $("#signal-label").textContent = fullFit.high < 0 ? "Improvement signal" : fullFit.low > 0 ? "Regression signal" : "Mostly weather / run-to-run noise";
-  $("#data-status").textContent = `Snapshot verified · Current through ${longDate(latest.date)}`;
+  $("#data-status").textContent = `Snapshot verified · Current through ${longDate(latestRun.date)}`;
 }
 
 function renderWeekly() {
