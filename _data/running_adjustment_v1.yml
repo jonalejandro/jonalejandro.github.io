@@ -1,0 +1,48 @@
+version: "1.0.0"
+effective_date: "2026-09-22"
+method_name: "Grade + Climate 145-bpm v1"
+
+qualification:
+  target_hr_bpm: 145
+  accepted_hr_min_bpm: 140
+  accepted_hr_max_bpm: 150
+  min_lap_duration_seconds: 600
+  exclude_first_lap: true
+
+heart_rate:
+  # Preserved from the site's original calibration.
+  speed_coefficient_mps_per_bpm: 0.0116511339
+
+grade:
+  model: "Minetti et al. 2002 running energy-cost polynomial"
+  valid_grade_min: -0.45
+  valid_grade_max: 0.45
+  flat_cost_j_per_kg_m: 3.6
+  # Cr(g) = a5*g^5 + a4*g^4 + a3*g^3 + a2*g^2 + a1*g + a0
+  coefficients_descending: [155.4, -30.4, -43.3, 46.3, 19.5, 3.6]
+
+climate:
+  metric: "simplified_wbgt"
+  # Vapor pressure from dew point, then Australian BOM simplified WBGT.
+  vapor_pressure_hpa:
+    a: 6.105
+    b: 17.27
+    c: 237.7
+  simplified_wbgt:
+    temp_coefficient: 0.567
+    vapor_pressure_coefficient: 0.393
+    intercept_c: 3.94
+  optimal_wbgt_c: 7.5
+  heat_speed_penalty_per_c: 0.002
+  cold_speed_penalty_per_c: 0.001
+  validated_wbgt_min_c: -7.0
+  validated_wbgt_max_c: 33.0
+  heat_penalty_sensitivity_per_c: [0.001, 0.006]
+  notes:
+    - "Use measured/full WBGT when trustworthy run-window WBGT is available; otherwise use simplified WBGT."
+    - "Store wind speed/direction and solar context for audit, but v1 applies no independent wind coefficient."
+    - "The heat coefficient is the marathon-specific central estimate from Mantzios et al. 2022; it is a conservative proxy for aerobic training, not an individualized physiological law."
+
+aggregation:
+  weighting: "qualifying_lap_duration_seconds"
+  metres_per_mile: 1609.344
