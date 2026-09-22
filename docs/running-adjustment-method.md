@@ -1,4 +1,4 @@
-# Grade + Climate 145-bpm method v1
+## Grade + Climate 145-bpm method v1
 
 **Version:** 1.0.0  
 **Effective:** 2026-09-22  
