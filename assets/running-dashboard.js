@@ -27,6 +27,7 @@ const RUNS = [
   { date: "2026-09-19", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
   { date: "2026-09-22", pace: 720, included: true, status: "Included · two laps · v1.0.0", note: "Two post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.0.0 was applied using the preserved HR coefficient, Minetti grade normalization from the COROS FIT elevation profile, and recovered run-window weather (~75.5°F, ~70.5°F dew point; simplified WBGT ~27.6°C). Adjusted pace: 12:00/mi." },
+  { date: "2026-09-24", pace: 778, included: true, status: "Included · four laps · v1.0.0", note: "Four post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.0.0 used the preserved HR coefficient, Minetti normalization from the COROS FIT elevation profile, and nearest-station run-window observations (~87.0°F, ~63.2°F dew point, ~45.6% relative humidity, ~9.9 mph E–ESE wind; simplified WBGT ~29.0°C). Adjusted pace: 12:58/mi." },
 ];
 
 const WEEKS = [
