@@ -1,6 +1,6 @@
-version: "1.0.0"
-effective_date: "2026-09-22"
-method_name: "Grade + Climate 145-bpm v1"
+version: "1.1.0"
+effective_date: "2026-09-27"
+method_name: "Grade + Climate 145-bpm v1.1"
 
 qualification:
   target_hr_bpm: 145
@@ -18,12 +18,10 @@ grade:
   valid_grade_min: -0.45
   valid_grade_max: 0.45
   flat_cost_j_per_kg_m: 3.6
-  # Cr(g) = a5*g^5 + a4*g^4 + a3*g^3 + a2*g^2 + a1*g + a0
   coefficients_descending: [155.4, -30.4, -43.3, 46.3, 19.5, 3.6]
 
 climate:
   metric: "simplified_wbgt"
-  # Vapor pressure from dew point, then Australian BOM simplified WBGT.
   vapor_pressure_hpa:
     a: 6.105
     b: 17.27
@@ -33,15 +31,38 @@ climate:
     vapor_pressure_coefficient: 0.393
     intercept_c: 3.94
   optimal_wbgt_c: 7.5
-  heat_speed_penalty_per_c: 0.002
+  heat_speed_penalty_per_c: 0.004
   cold_speed_penalty_per_c: 0.001
   validated_wbgt_min_c: -7.0
   validated_wbgt_max_c: 33.0
-  heat_penalty_sensitivity_per_c: [0.001, 0.006]
+  heat_penalty_sensitivity_per_c: [0.002, 0.006]
+  calibration:
+    type: "personal-history regularized"
+    calibration_date: "2026-09-27"
+    athlete_scope: "same-location steady aerobic COROS runs"
+    high_confidence_weather_matched_runs:
+      - date: "2026-09-12"
+        adjusted_pace_v1_sec_per_mile: 731
+        wbgt_c_approx: 29.3
+      - date: "2026-09-22"
+        adjusted_pace_v1_sec_per_mile: 720
+        wbgt_c_approx: 27.6
+      - date: "2026-09-24"
+        adjusted_pace_v1_sec_per_mile: 778
+        wbgt_c_approx: 29.0
+      - date: "2026-09-26"
+        adjusted_pace_v1_sec_per_mile: 699
+        wbgt_c_approx: 23.8
+      - date: "2026-09-27"
+        adjusted_pace_v1_sec_per_mile: 747
+        wbgt_c_approx: 32.0
+    raw_personal_fit_note: "The unconstrained personal slope was materially stronger than 0.4%/C, but the sample is small and confounded by fatigue, time of day, and route-level noise. v1.1 regularizes to 0.4%/C rather than overfitting."
+    rationale: "The athlete's residual pace remained slower on hotter matched runs after v1.0 correction. The selected 0.4%/C coefficient is stronger than the prior marathon-only 0.2%/C proxy, is supported by the athlete-specific direction and magnitude, and matches the cross-event heat slope reported by Mantzios et al. 2022."
   notes:
     - "Use measured/full WBGT when trustworthy run-window WBGT is available; otherwise use simplified WBGT."
-    - "Store wind speed/direction and solar context for audit, but v1 applies no independent wind coefficient."
-    - "The heat coefficient is the marathon-specific central estimate from Mantzios et al. 2022; it is a conservative proxy for aerobic training, not an individualized physiological law."
+    - "Store wind speed/direction and solar context for audit, but v1.1 applies no independent wind coefficient."
+    - "v1.1 is athlete-specific and regularized; do not treat 0.4%/C as a universal physiological law."
+    - "Re-fit after materially more matched runs are available; do not silently change this coefficient without another version bump."
 
 aggregation:
   weighting: "qualifying_lap_duration_seconds"
