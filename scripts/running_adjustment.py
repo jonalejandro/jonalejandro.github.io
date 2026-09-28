@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from math import exp
 from typing import Iterable
 
-METHOD_VERSION = "1.0.0"
+METHOD_VERSION = "1.1.0"
 TARGET_HR = 145.0
 HR_SPEED_COEFF = 0.0116511339  # m/s per bpm
 METRES_PER_MILE = 1609.344
@@ -21,7 +21,8 @@ GRADE_MIN, GRADE_MAX = -0.45, 0.45
 VP_A, VP_B, VP_C = 6.105, 17.27, 237.7
 SWBGT_T, SWBGT_E, SWBGT_INTERCEPT = 0.567, 0.393, 3.94
 OPTIMAL_WBGT_C = 7.5
-HEAT_PENALTY_PER_C = 0.002
+# v1.1 athlete-specific regularized calibration from same-location steady aerobic COROS runs.
+HEAT_PENALTY_PER_C = 0.004
 COLD_PENALTY_PER_C = 0.001
 WBGT_MIN_C, WBGT_MAX_C = -7.0, 33.0
 
@@ -52,7 +53,7 @@ def simplified_wbgt_c(temp_c: float, dewpoint_c: float) -> float:
 
 def climate_speed_penalty(wbgt_c: float) -> float:
     if not WBGT_MIN_C <= wbgt_c <= WBGT_MAX_C:
-        raise ValueError("WBGT outside v1 research validation range")
+        raise ValueError("WBGT outside v1.1 research validation range")
     if wbgt_c > OPTIMAL_WBGT_C:
         return (wbgt_c - OPTIMAL_WBGT_C) * HEAT_PENALTY_PER_C
     if wbgt_c < OPTIMAL_WBGT_C:
