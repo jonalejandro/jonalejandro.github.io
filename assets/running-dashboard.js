@@ -3,36 +3,36 @@ const RUNS = [
   { date: "2026-08-01", pace: null, included: false, status: "High-intensity session", note: "High-intensity session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-02", pace: null, included: false, status: "Short high-intensity run", note: "Short high-intensity run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-04", pace: null, included: false, status: "Outside aerobic HR range", note: "Outside aerobic HR range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-08-06", pace: 778, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-06", pace: 743, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~28.9°C). No independent wind correction." },
   { date: "2026-08-07", pace: null, included: false, status: "Running fitness test", note: "Running fitness test; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-08-10", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-10", pace: 741, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~32.3°C). No independent wind correction." },
   { date: "2026-08-13", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-08-15", pace: 785, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-15", pace: 744, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~32.2°C). No independent wind correction." },
   { date: "2026-08-17", pace: null, included: false, status: "Indoor run", note: "Indoor run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-21", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-24", pace: null, included: false, status: "Altitude / travel run", note: "Altitude / travel run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-25", pace: null, included: false, status: "Altitude / travel run", note: "Altitude / travel run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-08-27", pace: 794, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
-  { date: "2026-08-30", pace: 824, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
-  { date: "2026-08-31", pace: 797, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-08-27", pace: 755, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~31.0°C). No independent wind correction." },
+  { date: "2026-08-30", pace: 784, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and local run-window weather (sWBGT ~30.7°C). No independent wind correction." },
+  { date: "2026-08-31", pace: 758, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~30.9°C). No independent wind correction." },
   { date: "2026-09-02", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-09-05", pace: 759, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
-  { date: "2026-09-06", pace: 782, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
+  { date: "2026-09-05", pace: 725, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and local run-window weather (sWBGT ~28.9°C). No independent wind correction." },
+  { date: "2026-09-06", pace: 743, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and local run-window weather (sWBGT ~31.3°C). No independent wind correction." },
   { date: "2026-09-08", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-09-10", pace: 769, included: true, status: "Included", note: "Qualifying run included in the recent fit." },
-  { date: "2026-09-12", pace: 731, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+  { date: "2026-09-10", pace: 732, included: true, status: "Included · v1.1.0", note: "Reprocessed under Grade + Climate 145-bpm v1.1.0 using the existing HR/grade normalization and recovered run-window weather (sWBGT ~30.6°C). No independent wind correction." },
+  { date: "2026-09-12", pace: 698, included: true, status: "Included · one lap · v1.1.0", note: "One qualifying lap; reprocessed under Grade + Climate 145-bpm v1.1.0 with sWBGT ~29.3°C. Interpret cautiously. No independent wind correction." },
   { date: "2026-09-15", pace: 843, included: false, status: "Excluded observation", note: "Excluded in the source data; it does not affect the fit." },
   { date: "2026-09-17", pace: 714, included: false, status: "Short-run estimate", note: "Short-run estimate; excluded because it does not meet the qualification rules." },
-  { date: "2026-09-18", pace: 805, included: true, status: "Included · one lap", note: "One qualifying lap; interpret cautiously." },
+  { date: "2026-09-18", pace: 763, included: true, status: "Included · one lap · v1.1.0", note: "One qualifying lap; reprocessed under Grade + Climate 145-bpm v1.1.0 with recovered run-window weather (sWBGT ~32.0°C). Interpret cautiously. No independent wind correction." },
   { date: "2026-09-19", pace: null, included: false, status: "Threshold session", note: "Threshold session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-09-20", pace: 763, included: true, status: "Included · four laps", note: "Four qualifying steady aerobic laps; grade, climate, and heart rate normalized to 145 bpm." },
-  { date: "2026-09-22", pace: 720, included: true, status: "Included · two laps · v1.0.0", note: "Two post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.0.0 was applied using the preserved HR coefficient, Minetti grade normalization from the COROS FIT elevation profile, and recovered run-window weather (~75.5°F, ~70.5°F dew point; simplified WBGT ~27.6°C). Adjusted pace: 12:00/mi." },
-  { date: "2026-09-24", pace: 778, included: true, status: "Included · four laps · v1.0.0", note: "Four post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.0.0 used the preserved HR coefficient, Minetti normalization from the COROS FIT elevation profile, and nearest-station run-window observations (~87.0°F, ~63.2°F dew point, ~45.6% relative humidity, ~9.9 mph E–ESE wind; simplified WBGT ~29.0°C). Adjusted pace: 12:58/mi." },
-  { date: "2026-09-26", pace: 699, included: true, status: "Included · two laps · v1.0.0", note: "Two post-warmup steady aerobic laps qualified; later strides and recoveries were too short and were excluded. Grade + Climate 145-bpm v1.0.0 used the preserved HR coefficient, Minetti normalization from the COROS FIT elevation profile, and nearest-station NOAA/Aviation Weather Center run-window observations (~75.2°F, ~57.2°F dew point, ~53.6% relative humidity, ~8.1 mph SSE wind; simplified WBGT ~23.8°C). Adjusted pace: 11:39/mi." },
+  { date: "2026-09-20", pace: 731, included: true, status: "Included · four laps · v1.1.0", note: "Four qualifying steady aerobic laps reprocessed under Grade + Climate 145-bpm v1.1.0 with recovered run-window weather (sWBGT ~27.9°C). No independent wind correction." },
+  { date: "2026-09-22", pace: 690, included: true, status: "Included · two laps · v1.1.0", note: "Two post-warmup steady aerobic laps qualified. Reprocessed from v1.0.0 to v1.1.0 using the preserved HR/Minetti grade normalization and recovered run-window weather (sWBGT ~27.6°C). Adjusted pace: 11:30/mi. No independent wind correction." },
+  { date: "2026-09-24", pace: 743, included: true, status: "Included · four laps · v1.1.0", note: "Four post-warmup steady aerobic laps qualified. Reprocessed from v1.0.0 to v1.1.0 using the preserved HR/Minetti grade normalization and recovered run-window weather (sWBGT ~29.0°C). Adjusted pace: 12:23/mi. No independent wind correction." },
+  { date: "2026-09-26", pace: 675, included: true, status: "Included · two laps · v1.1.0", note: "Two post-warmup steady aerobic laps qualified; strides/recoveries remained excluded. Reprocessed from v1.0.0 to v1.1.0 with sWBGT ~23.8°C. Adjusted pace: 11:15/mi. No independent wind correction." },
+  { date: "2026-09-27", pace: 709, included: true, status: "Included · five laps · v1.1.0", note: "Five post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR/grade normalization and recovered evening run-window weather (sWBGT ~32.0°C). Adjusted pace: 11:49/mi. No independent wind correction." },
 ];
 
 const WEEKS = [
-  { label: "Jul 27", miles: 4.1, runs: 2 },
   { label: "Aug 3", miles: 10.2, runs: 3 },
   { label: "Aug 10", miles: 8.9, runs: 3 },
   { label: "Aug 17", miles: 8.8, runs: 2 },
@@ -40,6 +40,7 @@ const WEEKS = [
   { label: "Aug 31", miles: 12.8, runs: 4 },
   { label: "Sep 7", miles: 8.0, runs: 3 },
   { label: "Sep 14", miles: 16.6, runs: 5 },
+  { label: "Sep 21", miles: 17.8, runs: 4 },
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -107,11 +108,11 @@ function drawChart() {
   const innerH = height - margin.top - margin.bottom;
   const minX = Math.min(...RUNS.map(dateValue));
   const maxX = Math.max(...RUNS.map(dateValue));
-  const minY = 690, maxY = 870;
+  const minY = 650, maxY = 870;
   const x = (value) => margin.left + ((value - minX) / (maxX - minX)) * innerW;
   const y = (value) => margin.top + ((value - minY) / (maxY - minY)) * innerH;
 
-  const yTicks = [690, 720, 750, 780, 810, 840, 870];
+  const yTicks = [660, 690, 720, 750, 780, 810, 840, 870];
   yTicks.forEach((tick) => {
     svg.append(svgEl("line", { x1: margin.left, y1: y(tick), x2: width - margin.right, y2: y(tick), class: "grid-line" }));
     svg.append(svgEl("text", { x: margin.left - 12, y: y(tick) + 4, "text-anchor": "end", class: "axis-label" }, formatPace(tick)));
