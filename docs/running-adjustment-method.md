@@ -1,13 +1,13 @@
 ---
 layout: base
-seo_title: "Grade + Climate 145-bpm method v1"
+seo_title: "Grade + Climate 145-bpm method v1.1"
 description: "Versioned methodology and constants for the running aerobic-efficiency dashboard."
 ---
-# Grade + Climate 145-bpm method v1
+# Grade + Climate 145-bpm method v1.1
 
-**Version:** 1.0.0  
-**Effective:** 2026-09-22  
-**Purpose:** make the public running dashboard reproducible. A future update must not alter any numeric constant below without a version bump.
+**Version:** 1.1.0  
+**Effective:** 2026-09-27  
+**Purpose:** make the running adjustment reproducible while allowing an explicitly versioned athlete-specific climate calibration.
 
 ## Qualification
 
@@ -21,7 +21,7 @@ For raw lap speed `v` in m/s and average lap HR `H`:
 v_hr = v - 0.0116511339 * (H - 145)
 ```
 
-The coefficient is the original fitted site calibration recovered from repository history. It is intentionally frozen in v1.
+The coefficient is the original fitted site calibration recovered from repository history. It remains unchanged in v1.1.
 
 ## 2. Grade normalization
 
@@ -47,22 +47,24 @@ Prefer grade from the route elevation profile over net lap ascent/descent. If th
 
 Use observations covering the actual run window from the nearest reliable station. Store temperature, dew point, RH, wind speed/direction, station identifier/distance, and whether the run was sun-exposed. Public pages must not expose route coordinates or precise start times.
 
-When trustworthy measured/full WBGT is available, use it. Otherwise v1 uses the Australian Bureau of Meteorology simplified WBGT proxy from temperature and vapor pressure:
+When trustworthy measured/full WBGT is available, use it. Otherwise v1.1 uses the Australian Bureau of Meteorology simplified WBGT proxy from temperature and vapor pressure:
 
 ```
 e = 6.105 * exp(17.27 * Td / (237.7 + Td))  # hPa, Td in °C
 sWBGT = 0.567 * T + 0.393 * e + 3.94       # °C
 ```
 
-This proxy does not fully model solar load or wind. Wind is therefore stored for audit but has **no independent v1 pace coefficient**. Adding one without route-relative exposure would create false precision.
+This proxy does not fully model solar load or wind. Wind is retained for audit but still has **no independent pace coefficient**.
 
-### Performance factor
+### Athlete-specific heat calibration
 
-The endurance-running literature places optimal WBGT around 7.5°C for the marathon and reports a marathon-specific heat decrement around 0.2% per °C above optimum; a smaller ~0.1%/°C cold decrement is retained below optimum.
+v1.0 used a marathon-specific literature prior of 0.2% speed loss per °C WBGT above 7.5°C. By September 27, enough same-location low-HR COROS observations existed to test whether that coefficient removed the temperature dependence from the athlete's adjusted pace.
+
+The highest-confidence weather-matched observations used in the calibration were September 12, 22, 24, 26, and 27, 2026, spanning approximately 23.8–32.0°C simplified WBGT. The raw athlete-only fit was materially steeper than the v1.0 coefficient, but the sample is small and is confounded by fatigue, time of day, and route-level noise. To avoid overfitting, v1.1 uses a regularized coefficient of **0.4% speed loss per °C WBGT above 7.5°C**. This is stronger than the prior 0.2%/°C value and matches the cross-event heat slope reported by Mantzios et al. (2022), while remaining below the athlete-only unconstrained estimate.
 
 ```
 if WBGT > 7.5:
-    p = 0.002 * (WBGT - 7.5)
+    p = 0.004 * (WBGT - 7.5)
 elif WBGT < 7.5:
     p = 0.001 * (7.5 - WBGT)
 else:
@@ -71,7 +73,7 @@ else:
 v_climate = v_grade / (1 - p)
 ```
 
-Do not extrapolate v1 outside -7°C to 33°C WBGT. The heat coefficient is a research-based population proxy, not an individualized causal estimate. Sensitivity checks may use 0.1%–0.6% per °C, but the public point estimate is fixed at 0.2%/°C so the time series remains reproducible.
+Do not extrapolate outside -7°C to 33°C WBGT. The 0.4%/°C coefficient is an athlete-specific regularized estimate, not a universal physiological constant. Re-fit only after materially more matched runs are available and bump the method version for any numeric change.
 
 ## 4. Run aggregation
 
@@ -86,13 +88,15 @@ pace_sec_per_mile = 1609.344 / v_run
 
 The canonical constants are in `_data/running_adjustment_v1.yml`; executable reference code is in `scripts/running_adjustment.py`. Both must change together.
 
-If HR, grade profile, or required weather inputs are missing, **do not invent them**. Preserve available inputs, mark the run pending/excluded, and say exactly what is missing. A formula change requires a new method version; historical values must not be silently recomputed under a new version.
+If HR, grade profile, or required weather inputs are missing, **do not invent them**. Preserve available inputs, mark the run pending/excluded, and say exactly what is missing.
+
+Historical points calculated under v1.0 must not be silently relabeled as v1.1. Reprocessing should occur only when the original lap and weather inputs are available.
 
 ## Research basis
 
 - Minetti A.E. et al. (2002), *Journal of Applied Physiology* 93:1039–1046, DOI 10.1152/japplphysiol.01177.2001.
 - Ely M.R. et al. (2007), *Medicine & Science in Sports & Exercise* 39:487–493, DOI 10.1249/mss.0b013e31802d3aba.
-- Mantzios K. et al. (2022), *Medicine & Science in Sports & Exercise* 54:153–161, PMID 34652333. Their cross-event analysis found optimum endurance conditions around 7.5–15°C WBGT; marathon-specific heat decrement was ~0.2%/°C above optimum.
+- Mantzios K. et al. (2022), *Medicine & Science in Sports & Exercise* 54:153–161, PMID 34652333. Across endurance events, performance declined about 0.4% per °C WBGT increase beyond optimal conditions; the marathon-specific estimate was about 0.2%/°C.
 - Simplified WBGT follows the Australian Bureau of Meteorology approximation widely reproduced in peer-reviewed heat-stress literature.
 
 This method intentionally favors auditability and consistency over fitting each historical run perfectly.
