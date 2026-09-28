@@ -6,8 +6,8 @@ from running_adjustment import (
 def test_flat_cost():
     assert abs(minetti_cost(0.0) - 3.6) < 1e-12
 
-def test_heat_penalty_central_coefficient():
-    assert abs(climate_speed_penalty(17.5) - 0.02) < 1e-12
+def test_heat_penalty_personal_coefficient():
+    assert abs(climate_speed_penalty(17.5) - 0.04) < 1e-12
 
 def test_swbgt_monotonic_with_dewpoint():
     assert simplified_wbgt_c(25, 20) > simplified_wbgt_c(25, 10)
@@ -20,7 +20,7 @@ def test_hr_normalization_direction():
 
 if __name__ == "__main__":
     test_flat_cost()
-    test_heat_penalty_central_coefficient()
+    test_heat_penalty_personal_coefficient()
     test_swbgt_monotonic_with_dewpoint()
     test_hr_normalization_direction()
-    print("running_adjustment v1 tests passed")
+    print("running_adjustment v1.1 tests passed")
