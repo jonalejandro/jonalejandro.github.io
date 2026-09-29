@@ -1,5 +1,4 @@
 const RUNS = [
-  { date: "2026-07-12", pace: 747, included: false, status: "Early baseline", note: "Early baseline outside the recent trend window." },
   { date: "2026-08-01", pace: null, included: false, status: "High-intensity session", note: "High-intensity session; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-02", pace: null, included: false, status: "Short high-intensity run", note: "Short high-intensity run; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-08-04", pace: null, included: false, status: "Outside aerobic HR range", note: "Outside aerobic HR range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
