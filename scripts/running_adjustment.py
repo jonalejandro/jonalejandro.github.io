@@ -10,6 +10,7 @@ from math import exp
 from typing import Iterable
 
 METHOD_VERSION = "1.1.0"
+SECONDARY_METRICS_VERSION = "1.0.0"
 TARGET_HR = 145.0
 HR_SPEED_COEFF = 0.0116511339  # m/s per bpm
 METRES_PER_MILE = 1609.344
@@ -88,3 +89,65 @@ def adjusted_run_pace_s_per_mile(laps: Iterable[Lap], wbgt_c: float) -> float:
     total = sum(l.duration_s for l in laps)
     speed = sum(normalize_lap_speed_mps(l, wbgt_c) * l.duration_s for l in laps) / total
     return METRES_PER_MILE / speed
+
+
+def grade_normalized_observed_speed_mps(lap: Lap) -> float:
+    """Flat-equivalent observed speed, preserving the lap's measured HR."""
+    raw_speed = 1000.0 / lap.pace_s_per_km
+    return raw_speed * minetti_cost(lap.grade) / FLAT_COST
+
+
+def aerobic_decoupling_percent(laps: Iterable[Lap]) -> float:
+    """Pa:HR-style decoupling across the first and second halves by duration.
+
+    The caller passes already-qualified post-warm-up aerobic laps in
+    chronological order. A single run-level climate factor multiplies both
+    halves equally, so it cancels from this within-run ratio.
+    """
+    laps = list(laps)
+    if len(laps) < 2:
+        raise ValueError("decoupling requires at least two qualifying laps")
+    total = sum(l.duration_s for l in laps)
+    if total <= 0:
+        raise ValueError("qualifying duration must be positive")
+    midpoint = total / 2.0
+
+    def half_efficiency(start_s: float, end_s: float) -> float:
+        cursor = 0.0
+        speed_time = 0.0
+        hr_time = 0.0
+        duration = 0.0
+        for lap in laps:
+            lap_start, lap_end = cursor, cursor + lap.duration_s
+            overlap = max(0.0, min(lap_end, end_s) - max(lap_start, start_s))
+            if overlap:
+                speed_time += grade_normalized_observed_speed_mps(lap) * overlap
+                hr_time += lap.avg_hr_bpm * overlap
+                duration += overlap
+            cursor = lap_end
+        if duration <= 0:
+            raise ValueError("empty decoupling half")
+        mean_speed = speed_time / duration
+        mean_hr = hr_time / duration
+        return mean_speed / mean_hr
+
+    first = half_efficiency(0.0, midpoint)
+    second = half_efficiency(midpoint, total)
+    return (first - second) / first * 100.0
+
+
+def standardized_hr_at_adjusted_pace(
+    adjusted_pace_s_per_mile: float,
+    reference_pace_s_per_mile: float = 720.0,
+) -> float:
+    """Derived equivalent-HR index at a fixed already-adjusted pace.
+
+    This intentionally reuses the preserved speed-per-bpm coefficient from the
+    145-bpm model. Values outside 140-150 bpm are extrapolations and must be
+    labeled as such in presentation.
+    """
+    if adjusted_pace_s_per_mile <= 0 or reference_pace_s_per_mile <= 0:
+        raise ValueError("pace must be positive")
+    adjusted_speed = METRES_PER_MILE / adjusted_pace_s_per_mile
+    reference_speed = METRES_PER_MILE / reference_pace_s_per_mile
+    return TARGET_HR + (reference_speed - adjusted_speed) / HR_SPEED_COEFF
