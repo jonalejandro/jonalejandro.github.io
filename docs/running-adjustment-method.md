@@ -84,6 +84,31 @@ v_run = sum(v_climate_i * duration_i) / sum(duration_i)
 pace_sec_per_mile = 1609.344 / v_run
 ```
 
+## 5. Aerobic decoupling
+
+The durability companion metric uses only the same chronological post-warm-up laps that pass the aerobic qualification rules, and only when at least two qualifying laps exist. Split the qualifying duration at its midpoint. For each half, calculate a Pa:HR-style efficiency factor from duration-weighted Minetti grade-normalized **observed** speed divided by duration-weighted observed HR.
+
+```
+EF_half = mean(grade_normalized_observed_speed) / mean(observed_HR)
+decoupling_pct = (EF_first - EF_second) / EF_first * 100
+```
+
+Heart rate is deliberately **not** normalized to 145 bpm for this metric because the purpose is to preserve cardiac drift. A single run-window climate multiplier would affect both halves equally and cancels from the ratio. Positive values mean the second half was less efficient; negative values can occur when pacing, terrain, or a stronger finish improves the second-half ratio. The dashboard shows a 5% reference line as a practical visual guide, not a physiological threshold.
+
+## 6. Standardized-HR index at 12:00/mi
+
+The second companion metric asks the inverse question: using the same fitted heart-rate coefficient already used by the primary model, what equivalent HR corresponds to a fixed **already adjusted** pace of 12:00/mi?
+
+```
+v_ref = 1609.344 / 720
+v_145 = 1609.344 / adjusted_pace_sec_per_mile
+HR_12min = 145 + (v_ref - v_145) / 0.0116511339
+```
+
+This is a derived comparability index, not a measured heart rate, lactate threshold, race prediction, or new independent physiological model. The underlying coefficient was calibrated around 140–150 bpm; values outside that range are retained for continuity but must be labeled **extrapolated**.
+
+These two companion metrics have their own `secondary_metrics.version` in the YAML. Adding them does not change the numeric Grade + Climate 145-bpm v1.1.0 pace calculation.
+
 ## Versioning and missing-data rule
 
 The canonical constants are in `_data/running_adjustment_v1.yml`; executable reference code is in `scripts/running_adjustment.py`. Both must change together.
