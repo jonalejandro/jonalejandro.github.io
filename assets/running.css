@@ -24,3 +24,39 @@ footer{max-width:1240px;margin:0 auto;padding:1.5rem 2rem 3rem;display:flex;just
 .signal-grid strong small{font:650 .78rem/1 ui-sans-serif,system-ui,sans-serif;color:var(--muted)}
 .signal-grid p{margin:0;color:var(--muted);font-size:.82rem;line-height:1.45}
 @media(max-width:640px){.signal-grid{grid-template-columns:1fr}.signal-label{white-space:normal}}
+
+
+/* Aerobic durability companion metrics */
+.aerobic-metrics-summary{display:grid;grid-template-columns:repeat(4,1fr);margin-top:1.6rem;border-block:1px solid var(--rule)}
+.aerobic-metrics-summary article{min-width:0;padding:1.2rem 1.15rem 1.2rem 0}
+.aerobic-metrics-summary article+article{border-left:1px solid var(--rule);padding-left:1.15rem}
+.aerobic-metrics-summary span{display:block;color:var(--muted);font-size:.72rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.aerobic-metrics-summary strong{display:block;margin:.45rem 0 .35rem;font:500 clamp(1.75rem,3vw,2.7rem)/1 Georgia,"Times New Roman",serif;letter-spacing:-.035em}
+.aerobic-metrics-summary strong small{font:650 .72rem/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:0;color:var(--muted)}
+.aerobic-metrics-summary p{margin:0;color:var(--muted);font-size:.78rem;line-height:1.45}
+.secondary-metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.4rem}
+.metric-chart-panel{min-width:0;padding:1.1rem;border:1px solid var(--rule);border-radius:14px;background:#f7f5ef}
+.metric-chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.metric-chart-head span{display:block;color:var(--muted);font-size:.7rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.metric-chart-head strong{display:block;margin-top:.25rem;font-size:.92rem}
+.metric-direction{white-space:nowrap}
+.metric-legend{display:flex;flex-wrap:wrap;gap:.85rem;margin:.9rem 0 .25rem;color:var(--muted);font-size:.72rem}
+.metric-legend span{display:inline-flex;align-items:center;gap:.4rem}
+.metric-dot{width:.55rem;height:.55rem;border-radius:50%;background:var(--green)}
+.metric-guide-key{width:1rem;border-top:2px dashed var(--warm)}
+.metric-band-key{width:1rem;height:.55rem;background:rgba(11,107,79,.1);border:1px solid rgba(11,107,79,.25)}
+.metric-chart-wrap{overflow-x:auto}
+.metric-chart-wrap svg{display:block;width:100%;min-width:520px;height:auto}
+.metric-grid-line{stroke:var(--rule);stroke-width:1}
+.metric-axis-label{fill:var(--muted);font-size:12px}
+.metric-band{fill:var(--green-soft);opacity:.55}
+.metric-reference-line{stroke:var(--warm);stroke-width:1.5;stroke-dasharray:7 7}
+.metric-series-line{fill:none;stroke:var(--green);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.72}
+.metric-selected-guide{stroke:var(--warm);stroke-width:1;stroke-dasharray:4 7;opacity:.55}
+.metric-point{fill:var(--green);stroke:var(--card);stroke-width:2;cursor:pointer;transition:r .15s ease,stroke-width .15s ease}
+.metric-point.extrapolated{fill:var(--card);stroke:var(--gray-dark);stroke-width:2.4}
+.metric-point.selected{stroke:var(--warm);stroke-width:4}
+.metric-point:focus{outline:none;stroke:var(--warm);stroke-width:4}
+.metric-note{margin:.4rem 0 0;color:var(--muted);font-size:.76rem;line-height:1.5}
+@media(max-width:860px){.aerobic-metrics-summary{grid-template-columns:repeat(2,1fr)}.aerobic-metrics-summary article:nth-child(3){border-left:0;padding-left:0;border-top:1px solid var(--rule)}.aerobic-metrics-summary article:nth-child(4){border-top:1px solid var(--rule)}.secondary-metrics-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.aerobic-metrics-summary{grid-template-columns:1fr}.aerobic-metrics-summary article+article{border-left:0;border-top:1px solid var(--rule);padding-left:0}.metric-chart-head{display:block}.metric-direction{margin-top:.35rem}}
