@@ -67,3 +67,21 @@ climate:
 aggregation:
   weighting: "qualifying_lap_duration_seconds"
   metres_per_mile: 1609.344
+
+secondary_metrics:
+  version: "1.0.0"
+  aerobic_decoupling:
+    minimum_qualifying_laps: 2
+    source_laps: "same chronological post-warm-up laps that pass the 10-minute and 140-150 bpm qualification rules"
+    split: "first half vs second half by qualifying duration"
+    efficiency_factor: "duration-weighted Minetti grade-normalized observed speed divided by duration-weighted observed HR"
+    climate_note: "A single run-window climate multiplier cancels from the within-run ratio; no separate climate correction is applied to decoupling."
+    interpretation: "Positive values indicate efficiency loss in the second half; negative values can occur from pacing/terrain noise or a stronger second half."
+    reference_line_percent: 5
+  standardized_hr:
+    reference_pace_seconds_per_mile: 720
+    reference_pace_display: "12:00/mi"
+    derivation: "Invert the preserved 0.0116511339 m/s per bpm coefficient from the fully adjusted 145-bpm run pace."
+    calibration_hr_min_bpm: 140
+    calibration_hr_max_bpm: 150
+    extrapolation_policy: "Calculate for continuity but visibly flag values outside 140-150 bpm as extrapolated; do not present as measured HR or a race prediction."
