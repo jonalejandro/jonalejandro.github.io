@@ -85,6 +85,9 @@ assert len(dates) == len(set(dates)), 'Running data has duplicate dates'
 assert dates == sorted(dates), 'Running data dates must be chronological'
 assert all(300 <= int(row[1]) <= 1800 for row in run_rows), 'Running pace is outside the validation range'
 running_page = (root / 'running/index.html').read_text()
-for required in ['data-status', 'confidence-summary', 'signal-label', 'running-dashboard.js']:
+for required in ['data-status', 'confidence-summary', 'signal-label', 'decoupling-chart', 'standardized-hr-chart', 'selected-decoupling', 'selected-standardized-hr', 'running-dashboard.js']:
     assert required in running_page, f'Running page is missing {required}'
+assert 'DECOUPLING_BY_DATE' in running_js, 'Running dashboard is missing decoupling data'
+assert 'STANDARD_PACE_S_PER_MILE = 720' in running_js, 'Running dashboard standardized-HR reference pace changed unexpectedly'
+assert 'HR_SPEED_COEFF_MPS_PER_BPM = 0.0116511339' in running_js, 'Running dashboard HR coefficient drifted from the versioned method'
 assert (root / 'assets/favicon.svg').exists(), 'Favicon is missing'
