@@ -32,6 +32,26 @@ const RUNS = [
   { date: "2026-09-27", pace: 709, included: true, status: "Included · five laps · v1.1.0", note: "Five post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR/grade normalization and recovered evening run-window weather (sWBGT ~32.0°C). Adjusted pace: 11:49/mi. No independent wind correction." },
 ];
 
+const DECOUPLING_BY_DATE = {
+  "2026-08-06": { value: -6.15, laps: 2, minutes: 27.2 },
+  "2026-08-10": { value: 4.49, laps: 3, minutes: 35.0 },
+  "2026-08-27": { value: -2.04, laps: 2, minutes: 27.3 },
+  "2026-08-30": { value: 6.64, laps: 4, minutes: 56.2 },
+  "2026-08-31": { value: -2.51, laps: 2, minutes: 25.0 },
+  "2026-09-05": { value: -1.35, laps: 2, minutes: 23.4 },
+  "2026-09-06": { value: -1.10, laps: 4, minutes: 53.2 },
+  "2026-09-10": { value: 6.21, laps: 2, minutes: 26.2 },
+  "2026-09-20": { value: 4.68, laps: 4, minutes: 50.0 },
+  "2026-09-22": { value: 2.39, laps: 2, minutes: 25.5 },
+  "2026-09-24": { value: 5.25, laps: 4, minutes: 50.0 },
+  "2026-09-26": { value: 0.60, laps: 2, minutes: 23.5 },
+  "2026-09-27": { value: 3.71, laps: 5, minutes: 64.5 },
+};
+
+const STANDARD_PACE_S_PER_MILE = 720;
+const TARGET_HR_BPM = 145;
+const HR_SPEED_COEFF_MPS_PER_BPM = 0.0116511339;
+const METRES_PER_MILE = 1609.344;
 const WEEKS = [
   { label: "Aug 3", miles: 10.2, runs: 3 },
   { label: "Aug 10", miles: 8.9, runs: 3 },
@@ -53,6 +73,19 @@ function dateValue(run) { return Date.parse(`${run.date}T00:00:00Z`) / dayMs; }
 function formatPace(seconds) { if (!Number.isFinite(seconds)) return "—"; return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`; }
 function shortDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
 function longDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
+function standardizedHr(run) {
+  if (!run?.included || !Number.isFinite(run.pace)) return null;
+  const referenceSpeed = METRES_PER_MILE / STANDARD_PACE_S_PER_MILE;
+  const adjustedSpeedAt145 = METRES_PER_MILE / run.pace;
+  return TARGET_HR_BPM + (referenceSpeed - adjustedSpeedAt145) / HR_SPEED_COEFF_MPS_PER_BPM;
+}
+function decouplingFor(run) { return run ? (DECOUPLING_BY_DATE[run.date] ?? null) : null; }
+function median(values) {
+  const sorted = values.filter(Number.isFinite).slice().sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
 
 function regression(runs) {
   const points = runs.filter((run) => run.included);
@@ -97,6 +130,83 @@ function svgEl(name, attrs = {}, text = "") {
   Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
   if (text) element.textContent = text;
   return element;
+}
+
+function drawMetricChart(selector, points, options) {
+  const svg = $(selector);
+  if (!svg) return;
+  svg.replaceChildren();
+  if (!points.length) return;
+  const width = 960, height = 360;
+  const margin = { top: 28, right: 30, bottom: 52, left: 70 };
+  const innerW = width - margin.left - margin.right;
+  const innerH = height - margin.top - margin.bottom;
+  const minX = Math.min(...RUNS.map(dateValue));
+  const maxX = Math.max(...RUNS.map(dateValue));
+  const x = (value) => margin.left + ((value - minX) / Math.max(1, maxX - minX)) * innerW;
+  const y = (value) => margin.top + ((options.maxY - value) / (options.maxY - options.minY)) * innerH;
+
+  if (options.band) {
+    const top = y(options.band.max);
+    const bottom = y(options.band.min);
+    svg.append(svgEl("rect", { x: margin.left, y: top, width: innerW, height: bottom - top, class: "metric-band" }));
+  }
+  options.ticks.forEach((tick) => {
+    svg.append(svgEl("line", { x1: margin.left, y1: y(tick), x2: width - margin.right, y2: y(tick), class: "metric-grid-line" }));
+    svg.append(svgEl("text", { x: margin.left - 12, y: y(tick) + 4, "text-anchor": "end", class: "metric-axis-label" }, options.format(tick)));
+  });
+  if (Number.isFinite(options.guide)) {
+    svg.append(svgEl("line", { x1: margin.left, y1: y(options.guide), x2: width - margin.right, y2: y(options.guide), class: "metric-reference-line" }));
+  }
+
+  const tickDates = [RUNS[4], RUNS[10], RUNS[16], RUNS[22], RUNS.at(-1)].filter(Boolean);
+  tickDates.forEach((run, i) => {
+    const anchor = i === 0 ? "start" : i === tickDates.length - 1 ? "end" : "middle";
+    svg.append(svgEl("text", { x: x(dateValue(run)), y: height - 16, "text-anchor": anchor, class: "metric-axis-label" }, shortDate(run.date)));
+  });
+
+  const ordered = points.slice().sort((a, b) => dateValue(a.run) - dateValue(b.run));
+  if (ordered.length > 1) {
+    svg.append(svgEl("polyline", { points: ordered.map((p) => `${x(dateValue(p.run))},${y(p.value)}`).join(" "), class: "metric-series-line" }));
+  }
+  const selected = RUNS[selectedIndex];
+  svg.append(svgEl("line", { x1: x(dateValue(selected)), y1: margin.top, x2: x(dateValue(selected)), y2: height - margin.bottom, class: "metric-selected-guide" }));
+
+  ordered.forEach((point) => {
+    const index = RUNS.indexOf(point.run);
+    const circle = svgEl("circle", {
+      cx: x(dateValue(point.run)), cy: y(point.value), r: index === selectedIndex ? 9 : 6.5,
+      class: `metric-point${point.extrapolated ? " extrapolated" : ""}${index === selectedIndex ? " selected" : ""}`,
+      tabindex: "0", role: "button",
+      "aria-label": `${longDate(point.run.date)}, ${options.ariaValue(point.value)}${point.extrapolated ? ", extrapolated beyond the heart-rate calibration range" : ""}`
+    });
+    circle.append(svgEl("title", {}, `${shortDate(point.run.date)} · ${options.tooltip(point)}`));
+    circle.addEventListener("click", () => selectRun(index));
+    circle.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectRun(index); } });
+    svg.append(circle);
+  });
+}
+
+function drawSecondaryMetrics() {
+  const decouplingPoints = RUNS.map((run) => ({ run, record: decouplingFor(run) }))
+    .filter((p) => p.record && Number.isFinite(p.record.value))
+    .map((p) => ({ run: p.run, value: p.record.value, record: p.record }));
+  drawMetricChart("#decoupling-chart", decouplingPoints, {
+    minY: -8, maxY: 10, ticks: [-5, 0, 5, 10], guide: 5,
+    format: (v) => `${v}%`,
+    ariaValue: (v) => `${v.toFixed(1)} percent aerobic decoupling`,
+    tooltip: (p) => `${p.value.toFixed(1)}% decoupling · ${p.record.laps} qualifying laps`
+  });
+
+  const hrPoints = RUNS.map((run) => ({ run, value: standardizedHr(run) }))
+    .filter((p) => Number.isFinite(p.value))
+    .map((p) => ({ ...p, extrapolated: p.value < 140 || p.value > 150 }));
+  drawMetricChart("#standardized-hr-chart", hrPoints, {
+    minY: 130, maxY: 165, ticks: [130, 140, 150, 160], band: { min: 140, max: 150 },
+    format: (v) => `${v} bpm`,
+    ariaValue: (v) => `${v.toFixed(1)} beats per minute equivalent heart rate at 12 minutes per mile`,
+    tooltip: (p) => `${p.value.toFixed(1)} bpm at 12:00/mi${p.extrapolated ? " · extrapolated" : ""}`
+  });
 }
 
 function drawChart() {
@@ -198,6 +308,10 @@ function renderInspector() {
   $("#selected-pace").innerHTML = `${formatPace(run.pace)}${Number.isFinite(run.pace) ? "<span>/mi</span>" : "<span>Adjusted pace unavailable</span>"}`;
   $("#selected-qualification").textContent = run.included ? "Qualifying · included in trend" : `${run.status} · excluded from trend`;
   $("#selected-effect").textContent = effect.detail;
+  const decoupling = decouplingFor(run);
+  $("#selected-decoupling").textContent = decoupling ? `${decoupling.value.toFixed(1)}% · ${decoupling.laps} qualifying laps · ${decoupling.minutes.toFixed(1)} min` : run.included ? "Unavailable · fewer than two qualifying laps" : "Not calculated · run excluded";
+  const hrAtStandardPace = standardizedHr(run);
+  $("#selected-standardized-hr").textContent = Number.isFinite(hrAtStandardPace) ? `${hrAtStandardPace.toFixed(1)} bpm${hrAtStandardPace < 140 || hrAtStandardPace > 150 ? " · extrapolated" : ""}` : "Unavailable";
   $("#selected-note").textContent = run.note;
 }
 
@@ -206,6 +320,7 @@ function selectRun(index) {
   renderTable();
   renderInspector();
   drawChart();
+  drawSecondaryMetrics();
 }
 
 function renderSummary() {
@@ -227,6 +342,16 @@ function renderSummary() {
   $("#trend-8").textContent = `${Math.round(fullFit.monthly)} sec/mo`;
   $("#signal-label").textContent = fullFit.high < 0 ? "Improvement signal" : fullFit.low > 0 ? "Regression signal" : "Mostly weather / run-to-run noise";
   $("#data-status").textContent = `Snapshot verified · Current through ${longDate(latestRun.date)}`;
+  const latestDecouplingRun = [...RUNS].reverse().find((run) => decouplingFor(run));
+  const latestDecoupling = decouplingFor(latestDecouplingRun);
+  $("#latest-decoupling").innerHTML = latestDecoupling ? `${latestDecoupling.value.toFixed(1)}<small>%</small>` : "—";
+  $("#latest-decoupling-detail").textContent = latestDecoupling ? `${longDate(latestDecouplingRun.date)} · ${latestDecoupling.laps} qualifying laps · ${latestDecoupling.minutes.toFixed(1)} min` : "Not enough qualifying lap data";
+  const decouplingMedian = median(RUNS.map((run) => decouplingFor(run)?.value).filter(Number.isFinite));
+  $("#decoupling-median").innerHTML = Number.isFinite(decouplingMedian) ? `${decouplingMedian.toFixed(1)}<small>%</small>` : "—";
+  const latestIncluded = [...RUNS].reverse().find((run) => run.included && Number.isFinite(run.pace));
+  const latestStandardizedHr = standardizedHr(latestIncluded);
+  $("#latest-standardized-hr").innerHTML = Number.isFinite(latestStandardizedHr) ? `${latestStandardizedHr.toFixed(1)}<small> bpm</small>` : "—";
+  $("#standardized-hr-status").textContent = Number.isFinite(latestStandardizedHr) ? (latestStandardizedHr >= 140 && latestStandardizedHr <= 150 ? `${longDate(latestIncluded.date)} · within the original 140–150 bpm calibration range` : `${longDate(latestIncluded.date)} · extrapolated beyond the original 140–150 bpm calibration range`) : "Derived from the preserved HR coefficient";
 }
 
 function renderWeekly() {
@@ -259,3 +384,4 @@ renderWeekly();
 renderTable();
 renderInspector();
 drawChart();
+drawSecondaryMetrics();
