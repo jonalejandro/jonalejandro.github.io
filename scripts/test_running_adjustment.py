@@ -1,7 +1,7 @@
 from running_adjustment import (
     Lap, adjusted_run_pace_s_per_mile, aerobic_decoupling_percent,
     climate_speed_penalty, minetti_cost, simplified_wbgt_c,
-    standardized_hr_at_adjusted_pace
+    aerobic_efficiency_gain_index
 )
 
 def test_flat_cost():
@@ -27,11 +27,14 @@ def test_decoupling_positive_when_hr_rises_at_same_speed():
     laps = [Lap(600, 480, 142, 0.0), Lap(600, 480, 148, 0.0)]
     assert aerobic_decoupling_percent(laps) > 0
 
-def test_standardized_hr_reference_identity():
-    assert abs(standardized_hr_at_adjusted_pace(720) - 145) < 1e-12
+def test_efficiency_gain_baseline_identity():
+    baseline = [743, 741, 744, 755]
+    baseline_mean_speed_pace = len(baseline) / sum(1 / p for p in baseline)
+    assert abs(aerobic_efficiency_gain_index(baseline_mean_speed_pace, baseline) - 100) < 1e-12
 
-def test_faster_adjusted_pace_has_lower_hr_at_fixed_reference():
-    assert standardized_hr_at_adjusted_pace(690) < standardized_hr_at_adjusted_pace(750)
+def test_faster_adjusted_pace_has_higher_efficiency_gain():
+    baseline = [743, 741, 744, 755]
+    assert aerobic_efficiency_gain_index(690, baseline) > aerobic_efficiency_gain_index(750, baseline)
 
 if __name__ == "__main__":
     test_flat_cost()
@@ -40,6 +43,6 @@ if __name__ == "__main__":
     test_hr_normalization_direction()
     test_decoupling_zero_for_identical_halves()
     test_decoupling_positive_when_hr_rises_at_same_speed()
-    test_standardized_hr_reference_identity()
-    test_faster_adjusted_pace_has_lower_hr_at_fixed_reference()
-    print("running_adjustment v1.1 + secondary metrics tests passed")
+    test_efficiency_gain_baseline_identity()
+    test_faster_adjusted_pace_has_higher_efficiency_gain()
+    print("running_adjustment v1.1 + secondary metrics v1.1 tests passed")

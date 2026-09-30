@@ -49,9 +49,7 @@ const DECOUPLING_BY_DATE = {
   "2026-09-30": { value: 3.49, laps: 3, minutes: 38.2 },
 };
 
-const STANDARD_PACE_S_PER_MILE = 720;
-const TARGET_HR_BPM = 145;
-const HR_SPEED_COEFF_MPS_PER_BPM = 0.0116511339;
+const EFFICIENCY_BASELINE_DATES = ["2026-08-06", "2026-08-10", "2026-08-15", "2026-08-27"];
 const METRES_PER_MILE = 1609.344;
 const WEEKS = [
   { label: "Aug 3", miles: 10.2, runs: 3 },
@@ -75,11 +73,14 @@ function dateValue(run) { return Date.parse(`${run.date}T00:00:00Z`) / dayMs; }
 function formatPace(seconds) { if (!Number.isFinite(seconds)) return "—"; return `${Math.floor(seconds / 60)}:${String(Math.round(seconds % 60)).padStart(2, "0")}`; }
 function shortDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
 function longDate(date) { return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`)); }
-function standardizedHr(run) {
-  if (!run?.included || !Number.isFinite(run.pace)) return null;
-  const referenceSpeed = METRES_PER_MILE / STANDARD_PACE_S_PER_MILE;
-  const adjustedSpeedAt145 = METRES_PER_MILE / run.pace;
-  return TARGET_HR_BPM + (referenceSpeed - adjustedSpeedAt145) / HR_SPEED_COEFF_MPS_PER_BPM;
+const EFFICIENCY_BASELINE_SPEED_MPS = (() => {
+  const baselineRuns = RUNS.filter((run) => EFFICIENCY_BASELINE_DATES.includes(run.date) && run.included && Number.isFinite(run.pace));
+  if (baselineRuns.length !== EFFICIENCY_BASELINE_DATES.length) return null;
+  return baselineRuns.reduce((sum, run) => sum + METRES_PER_MILE / run.pace, 0) / baselineRuns.length;
+})();
+function efficiencyGain(run) {
+  if (!run?.included || !Number.isFinite(run.pace) || !Number.isFinite(EFFICIENCY_BASELINE_SPEED_MPS)) return null;
+  return (METRES_PER_MILE / run.pace) / EFFICIENCY_BASELINE_SPEED_MPS * 100;
 }
 function decouplingFor(run) { return run ? (DECOUPLING_BY_DATE[run.date] ?? null) : null; }
 function median(values) {
@@ -200,14 +201,13 @@ function drawSecondaryMetrics() {
     tooltip: (p) => `${p.value.toFixed(1)}% decoupling · ${p.record.laps} qualifying laps`
   });
 
-  const hrPoints = RUNS.map((run) => ({ run, value: standardizedHr(run) }))
-    .filter((p) => Number.isFinite(p.value))
-    .map((p) => ({ ...p, extrapolated: p.value < 140 || p.value > 150 }));
-  drawMetricChart("#standardized-hr-chart", hrPoints, {
-    minY: 130, maxY: 165, ticks: [130, 140, 150, 160], band: { min: 140, max: 150 },
-    format: (v) => `${v} bpm`,
-    ariaValue: (v) => `${v.toFixed(1)} beats per minute equivalent heart rate at 12 minutes per mile`,
-    tooltip: (p) => `${p.value.toFixed(1)} bpm at 12:00/mi${p.extrapolated ? " · extrapolated" : ""}`
+  const efficiencyPoints = RUNS.map((run) => ({ run, value: efficiencyGain(run) }))
+    .filter((p) => Number.isFinite(p.value));
+  drawMetricChart("#efficiency-gain-chart", efficiencyPoints, {
+    minY: 94, maxY: 112, ticks: [95, 100, 105, 110], guide: 100,
+    format: (v) => `${v}`,
+    ariaValue: (v) => `${v.toFixed(1)} aerobic efficiency index, baseline 100`,
+    tooltip: (p) => `${p.value.toFixed(1)} efficiency index · ${(p.value - 100) >= 0 ? "+" : ""}${(p.value - 100).toFixed(1)}% vs baseline`
   });
 }
 
@@ -312,8 +312,8 @@ function renderInspector() {
   $("#selected-effect").textContent = effect.detail;
   const decoupling = decouplingFor(run);
   $("#selected-decoupling").textContent = decoupling ? `${decoupling.value.toFixed(1)}% · ${decoupling.laps} qualifying laps · ${decoupling.minutes.toFixed(1)} min` : run.included ? "Unavailable · fewer than two qualifying laps" : "Not calculated · run excluded";
-  const hrAtStandardPace = standardizedHr(run);
-  $("#selected-standardized-hr").textContent = Number.isFinite(hrAtStandardPace) ? `${hrAtStandardPace.toFixed(1)} bpm${hrAtStandardPace < 140 || hrAtStandardPace > 150 ? " · extrapolated" : ""}` : "Unavailable";
+  const gain = efficiencyGain(run);
+  $("#selected-efficiency-gain").textContent = Number.isFinite(gain) ? `${gain.toFixed(1)} index · ${gain >= 100 ? "+" : ""}${(gain - 100).toFixed(1)}% vs baseline` : "Unavailable";
   $("#selected-note").textContent = run.note;
 }
 
@@ -353,9 +353,9 @@ function renderSummary() {
   const decouplingMedian = median(RUNS.map((run) => decouplingFor(run)?.value).filter(Number.isFinite));
   $("#decoupling-median").innerHTML = Number.isFinite(decouplingMedian) ? `${decouplingMedian.toFixed(1)}<small>%</small>` : "—";
   const latestIncluded = [...RUNS].reverse().find((run) => run.included && Number.isFinite(run.pace));
-  const latestStandardizedHr = standardizedHr(latestIncluded);
-  $("#latest-standardized-hr").innerHTML = Number.isFinite(latestStandardizedHr) ? `${latestStandardizedHr.toFixed(1)}<small> bpm</small>` : "—";
-  $("#standardized-hr-status").textContent = Number.isFinite(latestStandardizedHr) ? (latestStandardizedHr >= 140 && latestStandardizedHr <= 150 ? `${longDate(latestIncluded.date)} · within the original 140–150 bpm calibration range` : `${longDate(latestIncluded.date)} · extrapolated beyond the original 140–150 bpm calibration range`) : "Derived from the preserved HR coefficient";
+  const latestGain = efficiencyGain(latestIncluded);
+  $("#latest-efficiency-gain").innerHTML = Number.isFinite(latestGain) ? `${(latestGain - 100) >= 0 ? "+" : ""}${(latestGain - 100).toFixed(1)}<small>%</small>` : "—";
+  $("#efficiency-gain-status").textContent = Number.isFinite(latestGain) ? `${longDate(latestIncluded.date)} · index ${latestGain.toFixed(1)} · baseline = 100` : "More speed at the same 145-bpm effort";
 }
 
 function renderWeekly() {

@@ -95,19 +95,23 @@ decoupling_pct = (EF_first - EF_second) / EF_first * 100
 
 Heart rate is deliberately **not** normalized to 145 bpm for this metric because the purpose is to preserve cardiac drift. A single run-window climate multiplier would affect both halves equally and cancels from the ratio. Positive values mean the second half was less efficient; negative values can occur when pacing, terrain, or a stronger finish improves the second-half ratio. The dashboard shows a 5% reference line as a practical visual guide, not a physiological threshold.
 
-## 6. Standardized-HR index at 12:00/mi
+## 6. Aerobic Efficiency Gain
 
-The second companion metric asks the inverse question: using the same fitted heart-rate coefficient already used by the primary model, what equivalent HR corresponds to a fixed **already adjusted** pace of 12:00/mi?
+The second companion metric keeps heart rate fixed at the same 145-bpm target as the primary analysis and asks a simpler question: how much grade- and climate-adjusted speed is produced now relative to a fixed early baseline?
+
+The baseline is the mean fully adjusted speed of the first four qualifying observations under v1.1.0: August 6, August 10, August 15, and August 27, 2026. Those dates are versioned in `_data/running_adjustment_v1.yml` so future runs do not move the benchmark.
 
 ```
-v_ref = 1609.344 / 720
-v_145 = 1609.344 / adjusted_pace_sec_per_mile
-HR_12min = 145 + (v_ref - v_145) / 0.0116511339
+v_baseline = mean(1609.344 / baseline_pace_sec_per_mile)
+v_run = 1609.344 / adjusted_pace_sec_per_mile
+efficiency_index = 100 * v_run / v_baseline
 ```
 
-This is a derived comparability index, not a measured heart rate, lactate threshold, race prediction, or new independent physiological model. The underlying coefficient was calibrated around 140–150 bpm; values outside that range are retained for continuity but must be labeled **extrapolated**.
+Baseline = 100. An index of 106 means approximately 6% more fully adjusted speed at the same 145-bpm target effort than the fixed baseline. Values below 100 mean less adjusted speed than baseline.
 
-These two companion metrics have their own `secondary_metrics.version` in the YAML. Adding them does not change the numeric Grade + Climate 145-bpm v1.1.0 pace calculation.
+The public label is **Aerobic Efficiency Gain**, with the plain-language interpretation **More speed at the same HR**. This is a normalized performance index derived from the existing Grade + Climate 145-bpm pace; it is not a direct measurement of oxygen cost, metabolic efficiency, lactate threshold, or race performance. Unlike the retired fixed-pace standardized-HR chart, this metric does not extrapolate heart rate outside the 140–150 bpm calibration range.
+
+The companion metrics have their own `secondary_metrics.version` in the YAML. Replacing standardized HR with Aerobic Efficiency Gain bumps that secondary version to 1.1.0 but does not change the numeric Grade + Climate 145-bpm v1.1.0 pace calculation.
 
 ## Versioning and missing-data rule
 

@@ -69,7 +69,7 @@ aggregation:
   metres_per_mile: 1609.344
 
 secondary_metrics:
-  version: "1.0.0"
+  version: "1.1.0"
   aerobic_decoupling:
     minimum_qualifying_laps: 2
     source_laps: "same chronological post-warm-up laps that pass the 10-minute and 140-150 bpm qualification rules"
@@ -78,10 +78,10 @@ secondary_metrics:
     climate_note: "A single run-window climate multiplier cancels from the within-run ratio; no separate climate correction is applied to decoupling."
     interpretation: "Positive values indicate efficiency loss in the second half; negative values can occur from pacing/terrain noise or a stronger second half."
     reference_line_percent: 5
-  standardized_hr:
-    reference_pace_seconds_per_mile: 720
-    reference_pace_display: "12:00/mi"
-    derivation: "Invert the preserved 0.0116511339 m/s per bpm coefficient from the fully adjusted 145-bpm run pace."
-    calibration_hr_min_bpm: 140
-    calibration_hr_max_bpm: 150
-    extrapolation_policy: "Calculate for continuity but visibly flag values outside 140-150 bpm as extrapolated; do not present as measured HR or a race prediction."
+  aerobic_efficiency_gain:
+    baseline_index: 100
+    baseline_definition: "mean fully adjusted speed from the first four qualifying observations under Grade + Climate 145-bpm v1.1.0"
+    baseline_dates: ["2026-08-06", "2026-08-10", "2026-08-15", "2026-08-27"]
+    derivation: "efficiency_index = 100 * adjusted_speed_mps / baseline_mean_adjusted_speed_mps"
+    interpretation: "Values above 100 indicate proportionally more grade- and climate-adjusted speed at the same 145-bpm target effort; values below 100 indicate less."
+    presentation: "Label as Aerobic Efficiency Gain and describe as More speed at the same HR. Do not describe this index as measured physiological cost."

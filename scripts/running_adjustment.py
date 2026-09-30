@@ -10,7 +10,7 @@ from math import exp
 from typing import Iterable
 
 METHOD_VERSION = "1.1.0"
-SECONDARY_METRICS_VERSION = "1.0.0"
+SECONDARY_METRICS_VERSION = "1.1.0"
 TARGET_HR = 145.0
 HR_SPEED_COEFF = 0.0116511339  # m/s per bpm
 METRES_PER_MILE = 1609.344
@@ -136,18 +136,22 @@ def aerobic_decoupling_percent(laps: Iterable[Lap]) -> float:
     return (first - second) / first * 100.0
 
 
-def standardized_hr_at_adjusted_pace(
-    adjusted_pace_s_per_mile: float,
-    reference_pace_s_per_mile: float = 720.0,
-) -> float:
-    """Derived equivalent-HR index at a fixed already-adjusted pace.
 
-    This intentionally reuses the preserved speed-per-bpm coefficient from the
-    145-bpm model. Values outside 140-150 bpm are extrapolations and must be
-    labeled as such in presentation.
+def aerobic_efficiency_gain_index(
+    adjusted_pace_s_per_mile: float,
+    baseline_paces_s_per_mile: Iterable[float],
+) -> float:
+    """Index adjusted speed at 145 bpm against a fixed baseline mean speed.
+
+    Baseline 100 represents the mean fully adjusted speed of the preserved
+    baseline observations. Higher values mean more adjusted speed at the same
+    target heart rate.
     """
-    if adjusted_pace_s_per_mile <= 0 or reference_pace_s_per_mile <= 0:
+    if adjusted_pace_s_per_mile <= 0:
         raise ValueError("pace must be positive")
-    adjusted_speed = METRES_PER_MILE / adjusted_pace_s_per_mile
-    reference_speed = METRES_PER_MILE / reference_pace_s_per_mile
-    return TARGET_HR + (reference_speed - adjusted_speed) / HR_SPEED_COEFF
+    baseline_paces = list(baseline_paces_s_per_mile)
+    if not baseline_paces or any(p <= 0 for p in baseline_paces):
+        raise ValueError("baseline paces must be positive")
+    baseline_speed = sum(METRES_PER_MILE / p for p in baseline_paces) / len(baseline_paces)
+    current_speed = METRES_PER_MILE / adjusted_pace_s_per_mile
+    return 100.0 * current_speed / baseline_speed
