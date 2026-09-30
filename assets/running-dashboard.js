@@ -29,6 +29,7 @@ const RUNS = [
   { date: "2026-09-24", pace: 743, included: true, status: "Included · four laps · v1.1.0", note: "Four post-warmup steady aerobic laps qualified. Reprocessed from v1.0.0 to v1.1.0 using the preserved HR/Minetti grade normalization and recovered run-window weather (sWBGT ~29.0°C). Adjusted pace: 12:23/mi. No independent wind correction." },
   { date: "2026-09-26", pace: 675, included: true, status: "Included · two laps · v1.1.0", note: "Two post-warmup steady aerobic laps qualified; strides/recoveries remained excluded. Reprocessed from v1.0.0 to v1.1.0 with sWBGT ~23.8°C. Adjusted pace: 11:15/mi. No independent wind correction." },
   { date: "2026-09-27", pace: 709, included: true, status: "Included · five laps · v1.1.0", note: "Five post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR/grade normalization and recovered evening run-window weather (sWBGT ~32.0°C). Adjusted pace: 11:49/mi. No independent wind correction." },
+  { date: "2026-09-30", pace: null, included: false, status: "Weather inputs unavailable", note: "Three post-warmup steady aerobic laps met the duration and heart-rate rules, but verified run-window weather was unavailable. Excluded under the no-substitution rule; no Grade + Climate pace was calculated." },
 ];
 
 const DECOUPLING_BY_DATE = {
@@ -60,6 +61,7 @@ const WEEKS = [
   { label: "Sep 7", miles: 8.0, runs: 3 },
   { label: "Sep 14", miles: 16.6, runs: 5 },
   { label: "Sep 21", miles: 17.8, runs: 4 },
+  { label: "Sep 28", miles: 4.3, runs: 1 },
 ];
 
 const $ = (selector) => document.querySelector(selector);
