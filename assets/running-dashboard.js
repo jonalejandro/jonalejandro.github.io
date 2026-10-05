@@ -52,7 +52,6 @@ const DECOUPLING_BY_DATE = {
 const EFFICIENCY_BASELINE_DATES = ["2026-08-06", "2026-08-10", "2026-08-15", "2026-08-27"];
 const METRES_PER_MILE = 1609.344;
 const WEEKS = [
-  { label: "Aug 3", miles: 10.2, runs: 3 },
   { label: "Aug 10", miles: 8.9, runs: 3 },
   { label: "Aug 17", miles: 8.8, runs: 2 },
   { label: "Aug 24", miles: 16.7, runs: 4 },
@@ -60,7 +59,8 @@ const WEEKS = [
   { label: "Sep 7", miles: 8.0, runs: 3 },
   { label: "Sep 14", miles: 16.6, runs: 5 },
   { label: "Sep 21", miles: 17.8, runs: 4 },
-  { label: "Sep 28", miles: 4.3, runs: 1, current: true },
+  { label: "Sep 28", miles: 4.3, runs: 1 },
+  { label: "Oct 5", miles: 0.0, runs: 0, current: true },
 ];
 
 const $ = (selector) => document.querySelector(selector);
