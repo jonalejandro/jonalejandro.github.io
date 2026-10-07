@@ -31,6 +31,7 @@ const RUNS = [
   { date: "2026-09-27", pace: 709, included: true, status: "Included · five laps · v1.1.0", note: "Five post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR/grade normalization and recovered evening run-window weather (sWBGT ~32.0°C). Adjusted pace: 11:49/mi. No independent wind correction." },
   { date: "2026-09-30", pace: 699, included: true, status: "Included · three laps · v1.1.0", note: "Three post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR normalization, FIT elevation profile for grade, and NWS Addison Airport run-window observations (sWBGT ~29.4°C). Adjusted pace: 11:39/mi. No independent wind correction." },
   { date: "2026-10-05", pace: null, included: false, status: "Travel / high-intensity run", note: "Travel run with all recorded laps above the accepted 140–150 bpm range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-10-06", pace: null, included: false, status: "Travel run", note: "Travel run; excluded under the existing session rules. One post-warmup lap met the duration and heart-rate gates, but the session-level travel exclusion applies. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
 ];
 
 const DECOUPLING_BY_DATE = {
@@ -61,7 +62,7 @@ const WEEKS = [
   { label: "Sep 14", miles: 16.6, runs: 5 },
   { label: "Sep 21", miles: 17.8, runs: 4 },
   { label: "Sep 28", miles: 4.3, runs: 1 },
-  { label: "Oct 5", miles: 3.9, runs: 1, current: true },
+  { label: "Oct 5", miles: 6.0, runs: 2, current: true },
 ];
 
 const $ = (selector) => document.querySelector(selector);
