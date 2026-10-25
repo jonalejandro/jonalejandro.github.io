@@ -32,6 +32,9 @@ const RUNS = [
   { date: "2026-09-30", pace: 699, included: true, status: "Included · three laps · v1.1.0", note: "Three post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR normalization, FIT elevation profile for grade, and NWS Addison Airport run-window observations (sWBGT ~29.4°C). Adjusted pace: 11:39/mi. No independent wind correction." },
   { date: "2026-10-05", pace: null, included: false, status: "Travel / high-intensity run", note: "Travel run with all recorded laps above the accepted 140–150 bpm range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-10-06", pace: null, included: false, status: "Travel run", note: "Travel run; excluded under the existing session rules. One post-warmup lap met the duration and heart-rate gates, but the session-level travel exclusion applies. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
+  { date: "2026-10-10", pace: null, included: false, status: "Adjustment pending", note: "One post-warmup automatic lap meets the duration and heart-rate gates; strides and short laps are excluded. FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Grade adjustment remains unresolved; no adjusted pace or trend contribution is substituted." },
+  { date: "2026-10-21", pace: null, included: false, status: "Qualifying · adjustment pending", note: "Two post-warmup automatic laps meet the duration and heart-rate gates. Run-window weather is available, but FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Adjusted pace, decoupling, and efficiency gain remain pending grade resolution; excluded from the fit." },
+  { date: "2026-10-24", pace: null, included: false, status: "Qualifying · adjustment pending", note: "Three post-warmup automatic laps meet the duration and heart-rate gates. Run-window weather is available, but FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Adjusted pace, decoupling, and efficiency gain remain pending grade resolution; excluded from the fit." },
 ];
 
 const DECOUPLING_BY_DATE = {
@@ -54,15 +57,15 @@ const DECOUPLING_BY_DATE = {
 const EFFICIENCY_BASELINE_DATES = ["2026-08-06", "2026-08-10", "2026-08-15", "2026-08-27"];
 const METRES_PER_MILE = 1609.344;
 const WEEKS = [
-  { label: "Aug 10", miles: 8.9, runs: 3 },
-  { label: "Aug 17", miles: 8.8, runs: 2 },
   { label: "Aug 24", miles: 16.7, runs: 4 },
   { label: "Aug 31", miles: 12.8, runs: 4 },
   { label: "Sep 7", miles: 8.0, runs: 3 },
   { label: "Sep 14", miles: 16.6, runs: 5 },
   { label: "Sep 21", miles: 17.8, runs: 4 },
   { label: "Sep 28", miles: 4.3, runs: 1 },
-  { label: "Oct 5", miles: 6.0, runs: 2, current: true },
+  { label: "Oct 5", miles: 9.0, runs: 3 },
+  { label: "Oct 12", miles: 0.0, runs: 0 },
+  { label: "Oct 19", miles: 6.4, runs: 2, current: true },
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -121,7 +124,8 @@ const fourWeekFit = regression(recentRuns(28));
 function trendEffect(index) {
   const run = RUNS[index];
   if (!run.included) return { label: "No effect", detail: "Excluded from the trend" };
-  const without = regression(RUNS.filter((_, i) => i !== index));
+  const without = regression(recentRuns(56).filter((point) => point !== run));
+  if (!recentRuns(56).includes(run) || !without) return { label: "No effect", detail: "Outside the current eight-week fit" };
   const delta = fullFit.monthly - without.monthly;
   if (Math.abs(delta) < .5) return { label: "<1 sec/mo", detail: "Nearly neutral to the fit" };
   const magnitude = Math.abs(Math.round(delta));
