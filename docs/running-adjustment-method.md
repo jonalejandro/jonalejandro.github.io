@@ -129,3 +129,55 @@ Historical points calculated under v1.0 must not be silently relabeled as v1.1. 
 - Simplified WBGT follows the Australian Bureau of Meteorology approximation widely reproduced in peer-reviewed heat-stress literature.
 
 This method intentionally favors auditability and consistency over fitting each historical run perfectly.
+
+
+## Elevation-profile processing v1.0.0 (effective October 26, 2026)
+
+This independently versioned input-processing rule completes the previously
+unspecified elevation step. All Grade + Climate v1.1.0 and secondary v1.1.0
+coefficients remain unchanged. New observations explicitly identify profile
+v1.0.0; historical values and the fixed efficiency baseline are preserved.
+This is not a claim that historical preprocessing has been recovered exactly.
+
+Use chronological COROS automatic laps consistently. Exclude the first automatic
+lap, plus all workout-designated warmup, strides and recoveries, before applying
+the 600-second and 140–150-bpm gates. Structured blocks describe workout phases;
+they are not substituted for automatic laps. Thus October 10 has one eligible
+second automatic lap within its steady block. No duration or HR gate is relaxed.
+
+Use cumulative automatic-lap distance to locate boundaries in FIT cumulative
+distance; active timer offsets cannot locate elapsed-time boundaries when paused.
+Retain the first measured altitude at duplicate distances; reject decreasing
+cumulative distance or nonfinite inputs. Interpolate altitude linearly at each
+50-metre boundary starting from the lap boundary, plus its final shorter segment.
+Evaluate Minetti cost on each segment's rise/run and distance-weight cost ratios
+within the lap. Never clip an out-of-range grade. Require at least 99% measured
+distance coverage and at most 10 metres missing; omit uncovered terminal distance
+from the grade factor, without inventing or extrapolating elevation. October 24
+has a 2.16-metre uncovered terminal tail (less than 0.2% of that lap).
+
+Multiply the lap's HR-normalized speed by this profile cost ratio, then apply the
+unchanged climate correction. Duration-weight corrected lap speeds. Decoupling
+uses the same profile factors on observed speed, keeping observed HR. The
+reference implementation accepts a `profile_cost_ratio` on each `Lap` and exposes
+`profile_cost_ratio()` for profile preprocessing.
+
+### Validation and limits
+
+At 25/50/100-metre spacing, the new October observations vary by 2.2–3.8 seconds
+per mile. This sensitivity range is not a confidence interval. Using preserved
+rounded weather inputs, September 27 recomputes to 706.1 sec/mi versus saved 709,
+and September 30 to 699.8 versus saved 699. Their recomputed decoupling is 3.67%
+and 5.50%, versus saved 3.71% and 3.49%. The latter disagreement remains unresolved;
+these checks support numerical stability, not exact historical equivalence.
+Historical observations are not overwritten. Trends spanning both processing
+histories retain this comparability limitation.
+
+The privacy-safe lap inputs, weather aggregates, profile cost ratios, results,
+and spacing sensitivities for new observations are retained in
+`_data/running_profile_observations.json`. Raw FIT data, routes, station locations,
+activity identifiers, exact times, and private workout names are not published.
+Weather uses airport observations archived by the Iowa Environmental Mesonet,
+linearly interpolated across the actual run window; observations must bracket the
+window with gaps no greater than 90 minutes. These runs use the stored simplified
+WBGT formula; solar load is unmeasured, and wind has no separate correction.

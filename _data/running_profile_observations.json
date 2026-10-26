@@ -1,0 +1,142 @@
+{
+  "adjustment_version": "1.1.0",
+  "profile_processing_version": "1.0.0",
+  "secondary_metrics_version": "1.1.0",
+  "weather_source": "Iowa Environmental Mesonet ASOS archive, hourly airport observations bracketing each run; linear interpolation over run window; simplified WBGT",
+  "observations": [
+    {
+      "date": "2026-10-10",
+      "weather": {
+        "temperature_c": 29.109297250859107,
+        "dewpoint_c": 13.90459163802978,
+        "swbgt_c": 26.67615277796642,
+        "rh_pct": 39.48439125085911,
+        "wind_knots": 4.396735051546392,
+        "solar_context": "Not measured; simplified WBGT only"
+      },
+      "laps": [
+        {
+          "duration_s": 799.95,
+          "pace_s_per_km": 497.07,
+          "avg_hr_bpm": 146,
+          "profile_cost_ratio": 1.0018736473868175
+        }
+      ],
+      "pace_sec_per_mile": 741.5093785705182,
+      "decoupling_pct": null,
+      "sensitivity_paces": {
+        "25": 740.1255300441248,
+        "50": 741.5093785705182,
+        "100": 742.3055279153575
+      }
+    },
+    {
+      "date": "2026-10-21",
+      "weather": {
+        "temperature_c": 23.274208899519323,
+        "dewpoint_c": 5.006522115917915,
+        "swbgt_c": 20.562519636500234,
+        "rh_pct": 30.615345861064892,
+        "wind_knots": 4.722530042521723,
+        "solar_context": "Not measured; simplified WBGT only"
+      },
+      "laps": [
+        {
+          "duration_s": 771.05,
+          "pace_s_per_km": 479.11,
+          "avg_hr_bpm": 143,
+          "profile_cost_ratio": 1.0092415192061144
+        },
+        {
+          "duration_s": 752.14,
+          "pace_s_per_km": 467.36,
+          "avg_hr_bpm": 148,
+          "profile_cost_ratio": 0.9791769247628082
+        }
+      ],
+      "pace_sec_per_mile": 727.738953778582,
+      "decoupling_pct": 3.8530473360122635,
+      "sensitivity_paces": {
+        "25": 725.6069816925065,
+        "50": 727.738953778582,
+        "100": 728.5507514704702
+      }
+    },
+    {
+      "date": "2026-10-24",
+      "weather": {
+        "temperature_c": 26.088416574176836,
+        "dewpoint_c": 10.161889258848193,
+        "swbgt_c": 23.602654652707617,
+        "rh_pct": 36.89568332716735,
+        "wind_knots": 11.450220742385005,
+        "solar_context": "Not measured; simplified WBGT only"
+      },
+      "laps": [
+        {
+          "duration_s": 809.63,
+          "pace_s_per_km": 503.08,
+          "avg_hr_bpm": 149,
+          "profile_cost_ratio": 1.017653389914846
+        },
+        {
+          "duration_s": 890.72,
+          "pace_s_per_km": 553.47,
+          "avg_hr_bpm": 147,
+          "profile_cost_ratio": 0.9887859094314717
+        },
+        {
+          "duration_s": 699.65,
+          "pace_s_per_km": 556.57,
+          "avg_hr_bpm": 147,
+          "profile_cost_ratio": 1.001229483481282
+        }
+      ],
+      "pace_sec_per_mile": 818.9706864221746,
+      "decoupling_pct": 6.975802240409215,
+      "sensitivity_paces": {
+        "25": 816.639869193568,
+        "50": 818.9706864221746,
+        "100": 819.7960928173741
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "weather": {
+        "temperature_c": 24.167974115161122,
+        "dewpoint_c": 12.27482831484416,
+        "swbgt_c": 23.245629493895084,
+        "rh_pct": 47.437232567353405,
+        "wind_knots": 5.132356048600106,
+        "solar_context": "Not measured; simplified WBGT only"
+      },
+      "laps": [
+        {
+          "duration_s": 815.46,
+          "pace_s_per_km": 506.71,
+          "avg_hr_bpm": 146,
+          "profile_cost_ratio": 1.017131687299408
+        },
+        {
+          "duration_s": 837.34,
+          "pace_s_per_km": 520.3,
+          "avg_hr_bpm": 146,
+          "profile_cost_ratio": 0.9974452408288834
+        },
+        {
+          "duration_s": 823.12,
+          "pace_s_per_km": 511.46,
+          "avg_hr_bpm": 146,
+          "profile_cost_ratio": 1.003468492635352
+        }
+      ],
+      "pace_sec_per_mile": 773.3255169129739,
+      "decoupling_pct": 1.4975301545319115,
+      "sensitivity_paces": {
+        "25": 770.7145911376097,
+        "50": 773.3255169129739,
+        "100": 774.4611201209375
+      }
+    }
+  ]
+}

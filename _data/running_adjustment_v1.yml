@@ -85,3 +85,19 @@ secondary_metrics:
     derivation: "efficiency_index = 100 * adjusted_speed_mps / baseline_mean_adjusted_speed_mps"
     interpretation: "Values above 100 indicate proportionally more grade- and climate-adjusted speed at the same 145-bpm target effort; values below 100 indicate less."
     presentation: "Label as Aerobic Efficiency Gain and describe as More speed at the same HR. Do not describe this index as measured physiological cost."
+
+# Independently versioned preprocessing; v1.1.0 adjustment constants unchanged.
+profile_processing:
+  version: "1.0.0"
+  effective_date: "2026-10-26"
+  segment_metres: 50
+  weighting: "segment_distance"
+  duplicate_distance: "first measured altitude"
+  interpolation: "linear altitude at segment boundaries"
+  minimum_coverage_fraction: 0.99
+  maximum_uncovered_metres: 10
+  missing_endpoint: "exclude uncovered distance; never extrapolate altitude"
+  invalid_grade: "fail, never clip"
+  lap_basis: "COROS automatic laps; exclude first lap and workout warmup/strides/recovery"
+  bounds: "cumulative lap distance, not active timer offsets"
+  historical_policy: "Preserve historical values; profile preprocessing was not recorded. New observations disclose profile v1.0.0."

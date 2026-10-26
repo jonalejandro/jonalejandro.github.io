@@ -6,11 +6,14 @@ Do not change behavior without bumping METHOD_VERSION and the YAML version.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import exp
+from math import exp, isfinite
+from bisect import bisect_right
 from typing import Iterable
 
 METHOD_VERSION = "1.1.0"
 SECONDARY_METRICS_VERSION = "1.1.0"
+PROFILE_PROCESSING_VERSION = "1.0.0"
+PROFILE_SEGMENT_METRES = 50.0
 TARGET_HR = 145.0
 HR_SPEED_COEFF = 0.0116511339  # m/s per bpm
 METRES_PER_MILE = 1609.344
@@ -34,6 +37,7 @@ class Lap:
     pace_s_per_km: float
     avg_hr_bpm: float
     grade: float
+    profile_cost_ratio: float | None = None
 
 
 def minetti_cost(grade: float) -> float:
@@ -73,7 +77,7 @@ def normalize_lap_speed_mps(lap: Lap, wbgt_c: float) -> float:
 
     # Same metabolic power on flat ground: P = Cr(g) * v;
     # therefore flat-equivalent v = v * Cr(g) / Cr(0).
-    grade_speed = hr_speed * minetti_cost(lap.grade) / FLAT_COST
+    grade_speed = hr_speed * lap_grade_factor(lap)
 
     # If heat/cold reduces observed speed by p, ideal-condition speed is v/(1-p).
     p = climate_speed_penalty(wbgt_c)
@@ -94,7 +98,7 @@ def adjusted_run_pace_s_per_mile(laps: Iterable[Lap], wbgt_c: float) -> float:
 def grade_normalized_observed_speed_mps(lap: Lap) -> float:
     """Flat-equivalent observed speed, preserving the lap's measured HR."""
     raw_speed = 1000.0 / lap.pace_s_per_km
-    return raw_speed * minetti_cost(lap.grade) / FLAT_COST
+    return raw_speed * lap_grade_factor(lap)
 
 
 def aerobic_decoupling_percent(laps: Iterable[Lap]) -> float:
@@ -155,3 +159,56 @@ def aerobic_efficiency_gain_index(
     baseline_speed = sum(METRES_PER_MILE / p for p in baseline_paces) / len(baseline_paces)
     current_speed = METRES_PER_MILE / adjusted_pace_s_per_mile
     return 100.0 * current_speed / baseline_speed
+
+
+def lap_grade_factor(lap: Lap) -> float:
+    """Use an audited profile cost ratio when present; preserve legacy grade API."""
+    factor = lap.profile_cost_ratio
+    if factor is None:
+        return minetti_cost(lap.grade) / FLAT_COST
+    if not isfinite(factor) or factor <= 0:
+        raise ValueError("invalid profile cost ratio")
+    return factor
+
+
+def profile_cost_ratio(distances, elevations, lap_start_m, lap_end_m,
+                       spacing_m=PROFILE_SEGMENT_METRES):
+    """Profile v1.0.0: distance-weighted Minetti cost on 50m elevation segments.
+
+    Inputs are chronological cumulative distance and elevation in metres.
+    First elevation at each duplicate distance wins. No slope clipping or
+    altitude extrapolation. At least 99% of the lap must have measured coverage;
+    a terminal uncovered gap may be at most 10m and is excluded from the factor.
+    Use COROS cumulative lap distances, never active seconds as elapsed time.
+    """
+    if spacing_m <= 0 or lap_end_m <= lap_start_m:
+        raise ValueError("invalid profile bounds")
+    pairs = list(zip(distances, elevations))
+    if len(distances) != len(elevations) or len(pairs) < 2:
+        raise ValueError("incomplete profile")
+    ds, zs = [], []
+    for d, z in pairs:
+        if not isfinite(d) or not isfinite(z):
+            raise ValueError("nonfinite profile")
+        if ds and d < ds[-1]:
+            raise ValueError("distance is not monotonic")
+        if not ds or d > ds[-1]:
+            ds.append(d); zs.append(z)
+    if len(ds) < 2:
+        raise ValueError("profile has no distance span")
+    lo, hi = max(lap_start_m, ds[0]), min(lap_end_m, ds[-1])
+    missing = (lo-lap_start_m)+(lap_end_m-hi)
+    if hi <= lo or missing > min(10, .01*(lap_end_m-lap_start_m)):
+        raise ValueError("insufficient profile coverage")
+    def altitude(x):
+        i = min(max(bisect_right(ds, x)-1, 0), len(ds)-2)
+        return zs[i]+(zs[i+1]-zs[i])*(x-ds[i])/(ds[i+1]-ds[i])
+    edges = [lo]
+    while edges[-1]+spacing_m < hi:
+        edges.append(edges[-1]+spacing_m)
+    edges.append(hi)
+    cost_distance = 0.0
+    for a,b in zip(edges,edges[1:]):
+        grade = (altitude(b)-altitude(a))/(b-a)
+        cost_distance += minetti_cost(grade)/FLAT_COST*(b-a)
+    return cost_distance/(hi-lo)

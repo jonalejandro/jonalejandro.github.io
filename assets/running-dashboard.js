@@ -32,12 +32,16 @@ const RUNS = [
   { date: "2026-09-30", pace: 699, included: true, status: "Included · three laps · v1.1.0", note: "Three post-warmup steady aerobic laps qualified. Grade + Climate 145-bpm v1.1.0 used the preserved HR normalization, FIT elevation profile for grade, and NWS Addison Airport run-window observations (sWBGT ~29.4°C). Adjusted pace: 11:39/mi. No independent wind correction." },
   { date: "2026-10-05", pace: null, included: false, status: "Travel / high-intensity run", note: "Travel run with all recorded laps above the accepted 140–150 bpm range; excluded under the existing session rules. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
   { date: "2026-10-06", pace: null, included: false, status: "Travel run", note: "Travel run; excluded under the existing session rules. One post-warmup lap met the duration and heart-rate gates, but the session-level travel exclusion applies. Grade + Climate 145-bpm pace unavailable; no estimate substituted." },
-  { date: "2026-10-10", pace: null, included: false, status: "Adjustment pending", note: "One post-warmup automatic lap meets the duration and heart-rate gates; strides and short laps are excluded. FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Grade adjustment remains unresolved; no adjusted pace or trend contribution is substituted." },
-  { date: "2026-10-21", pace: null, included: false, status: "Qualifying · adjustment pending", note: "Two post-warmup automatic laps meet the duration and heart-rate gates. Run-window weather is available, but FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Adjusted pace, decoupling, and efficiency gain remain pending grade resolution; excluded from the fit." },
-  { date: "2026-10-24", pace: null, included: false, status: "Qualifying · adjustment pending", note: "Three post-warmup automatic laps meet the duration and heart-rate gates. Run-window weather is available, but FIT elevation contains out-of-range point-to-point grade spikes and the saved method does not define profile smoothing. Adjusted pace, decoupling, and efficiency gain remain pending grade resolution; excluded from the fit." },
+  {"date": "2026-10-10", "pace": 742, "included": true, "status": "Included · 1 lap · profile v1.0.0", "note": "1 qualifying automatic lap; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 26.7°C. Profile preprocessing is newly specified, not verified identical to historical processing. One-lap observation; no decoupling. Automatic laps are used consistently, rather than treating the entire structured steady block as the first lap."},
+  {"date": "2026-10-21", "pace": 728, "included": true, "status": "Included · 2 laps · profile v1.0.0", "note": "2 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 20.6°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
+  {"date": "2026-10-24", "pace": 819, "included": true, "status": "Included · 3 laps · profile v1.0.0", "note": "3 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 23.6°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
+  {"date": "2026-10-25", "pace": 773, "included": true, "status": "Included · 3 laps · profile v1.0.0", "note": "3 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 23.2°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
 ];
 
 const DECOUPLING_BY_DATE = {
+  "2026-10-25": {"value": 1.5, "laps": 3, "minutes": 41.3},
+  "2026-10-24": {"value": 6.98, "laps": 3, "minutes": 40.0},
+  "2026-10-21": {"value": 3.85, "laps": 2, "minutes": 25.4},
   "2026-08-06": { value: -6.15, laps: 2, minutes: 27.2 },
   "2026-08-10": { value: 4.49, laps: 3, minutes: 35.0 },
   "2026-08-27": { value: -2.04, laps: 2, minutes: 27.3 },
@@ -57,7 +61,6 @@ const DECOUPLING_BY_DATE = {
 const EFFICIENCY_BASELINE_DATES = ["2026-08-06", "2026-08-10", "2026-08-15", "2026-08-27"];
 const METRES_PER_MILE = 1609.344;
 const WEEKS = [
-  { label: "Aug 24", miles: 16.7, runs: 4 },
   { label: "Aug 31", miles: 12.8, runs: 4 },
   { label: "Sep 7", miles: 8.0, runs: 3 },
   { label: "Sep 14", miles: 16.6, runs: 5 },
@@ -65,7 +68,8 @@ const WEEKS = [
   { label: "Sep 28", miles: 4.3, runs: 1 },
   { label: "Oct 5", miles: 9.0, runs: 3 },
   { label: "Oct 12", miles: 0.0, runs: 0 },
-  { label: "Oct 19", miles: 6.4, runs: 2, current: true },
+  { label: "Oct 19", miles: 10.042694414618625, runs: 3 },
+  { label: "Oct 26", miles: 0, runs: 0, current: true },
 ];
 
 const $ = (selector) => document.querySelector(selector);
@@ -210,7 +214,7 @@ function drawSecondaryMetrics() {
   const efficiencyPoints = RUNS.map((run) => ({ run, value: efficiencyGain(run) }))
     .filter((p) => Number.isFinite(p.value));
   drawMetricChart("#efficiency-gain-chart", efficiencyPoints, {
-    minY: 94, maxY: 112, ticks: [95, 100, 105, 110], guide: 100,
+    minY: Math.min(90, Math.floor(Math.min(...efficiencyPoints.map((p) => p.value)) / 5) * 5), maxY: Math.max(112, Math.ceil(Math.max(...efficiencyPoints.map((p) => p.value)) / 5) * 5), ticks: [90, 95, 100, 105, 110], guide: 100,
     format: (v) => `${v}`,
     ariaValue: (v) => `${v.toFixed(1)} aerobic efficiency index, baseline 100`,
     tooltip: (p) => `${p.value.toFixed(1)} efficiency index · ${(p.value - 100) >= 0 ? "+" : ""}${(p.value - 100).toFixed(1)}% vs baseline`
@@ -343,9 +347,10 @@ function renderSummary() {
   $("#latest-pace").innerHTML = `${formatPace(latest.pace)}<small>/mi</small>`;
   $("#latest-date").textContent = `${longDate(latest.date)} · ${latest.status}`;
   $("#trend-value").innerHTML = `${monthly < 0 ? "−" : "+"}${Math.abs(monthly)}<small> sec/mi/mo</small>`;
-  $("#trend-meaning").textContent = meaningful ? "Statistically directional" : "Directionally improving · uncertainty includes flat";
+  $("#trend-meaning").textContent = meaningful ? "Statistically directional" : (fullFit.monthly < 0 ? "Directionally improving · uncertainty includes flat" : "Directionally slower · uncertainty includes flat");
   $("#weekly-total").innerHTML = `${lastCompletedWeek.miles.toFixed(1)}<small> mi</small>`;
   $("#weekly-detail").textContent = `${lastCompletedWeek.runs} runs · ${average.toFixed(1)} mi four-week average`;
+  $("#method-fit-count").textContent = `${fullFit.count} of ${recentRuns(56).length} runs`;
   $("#fit-count").innerHTML = `${fullFit.count}<small> observations</small>`;
   $("#confidence-summary").textContent = `95% slope range: ${Math.round(fullFit.low)} to ${Math.round(fullFit.high)} sec/mi/month`;
   $("#trend-4").textContent = fourWeekFit ? `${Math.round(fourWeekFit.monthly)} sec/mo` : "Not enough data";
@@ -356,7 +361,7 @@ function renderSummary() {
   const latestDecoupling = decouplingFor(latestDecouplingRun);
   $("#latest-decoupling").innerHTML = latestDecoupling ? `${latestDecoupling.value.toFixed(1)}<small>%</small>` : "—";
   $("#latest-decoupling-detail").textContent = latestDecoupling ? `${longDate(latestDecouplingRun.date)} · ${latestDecoupling.laps} qualifying laps · ${latestDecoupling.minutes.toFixed(1)} min` : "Not enough qualifying lap data";
-  const decouplingMedian = median(RUNS.map((run) => decouplingFor(run)?.value).filter(Number.isFinite));
+  const decouplingMedian = median(recentRuns(56).map((run) => decouplingFor(run)?.value).filter(Number.isFinite));
   $("#decoupling-median").innerHTML = Number.isFinite(decouplingMedian) ? `${decouplingMedian.toFixed(1)}<small>%</small>` : "—";
   const latestIncluded = [...RUNS].reverse().find((run) => run.included && Number.isFinite(run.pace));
   const latestGain = efficiencyGain(latestIncluded);
