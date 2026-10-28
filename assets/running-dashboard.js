@@ -36,6 +36,7 @@ const RUNS = [
   {"date": "2026-10-21", "pace": 728, "included": true, "status": "Included · 2 laps · profile v1.0.0", "note": "2 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 20.6°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
   {"date": "2026-10-24", "pace": 819, "included": true, "status": "Included · 3 laps · profile v1.0.0", "note": "3 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 23.6°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
   {"date": "2026-10-25", "pace": 773, "included": true, "status": "Included · 3 laps · profile v1.0.0", "note": "3 qualifying automatic laps; first lap, warmup, strides, recoveries and short laps excluded. Unchanged Grade + Climate v1.1.0 constants; documented 50-metre profile processing v1.0.0; sWBGT 23.2°C. Profile preprocessing is newly specified, not verified identical to historical processing."},
+  { date: "2026-10-27", pace: null, included: false, status: "High-intensity interval session", note: "High-intensity interval session; excluded under the existing session rules. Hard intervals lasted four minutes at 167–174 bpm; recovery and cooldown segments are not qualifying steady aerobic observations. Grade + Climate 145-bpm pace, decoupling and efficiency gain are not calculated for this session." },
 ];
 
 const DECOUPLING_BY_DATE = {
@@ -69,7 +70,7 @@ const WEEKS = [
   { label: "Oct 5", miles: 9.0, runs: 3 },
   { label: "Oct 12", miles: 0.0, runs: 0 },
   { label: "Oct 19", miles: 10.042694414618625, runs: 3 },
-  { label: "Oct 26", miles: 0, runs: 0, current: true },
+  { label: "Oct 26", miles: 3.779919022906227, runs: 1, current: true },
 ];
 
 const $ = (selector) => document.querySelector(selector);
